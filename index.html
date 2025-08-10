@@ -1,262 +1,359 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <title>Maximilian Hackl – VJ Visualizer</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <title>Maximilian Hackl — Autonomous 3D Scanning & AV Art</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- SEO -->
+  <meta name="description" content="Portfolio von Maximilian Hackl: Autonomous 3D Scanning, industrielle Digitale Zwillinge, LiDAR, Robotik und audiovisuelle Live-Visuals." />
+  <meta name="keywords" content="LiDAR, SLAM, Robotik, Punktwolken, Digital Twin, AV, VJ" />
+  <link rel="canonical" href="https://example.com/" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Maximilian Hackl — Autonomous 3D Scanning & AV Art" />
+  <meta property="og:description" content="Engineering × Audiovisuals: Robotic Scanning, Point Clouds, Live Visuals." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://example.com/" />
+  <meta property="og:image" content="https://example.com/og-image.jpg" />
+
+  <!-- Fonts (lokal ersetzbar) -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
+
   <style>
+    :root{
+      --bg: #0b0b0c;
+      --fg: #e8e8ea;
+      --muted: #a7a7ad;
+      --accent: #ffe26a;
+      --card: #121214;
+      --border: rgba(255,255,255,0.08);
+      --shadow: 0 8px 30px rgba(0,0,0,0.35);
+    }
+    [data-theme="light"]{
+      --bg: #fbfbfd;
+      --fg: #111114;
+      --muted: #4e4e55;
+      --accent: #7a5cff;
+      --card: #ffffff;
+      --border: rgba(0,0,0,0.08);
+      --shadow: 0 8px 24px rgba(0,0,0,0.12);
+    }
+
+    * { box-sizing: border-box }
     html, body {
-      margin: 0;
-      padding: 0;
-      background: transparent;
-      font-family: 'Inter', sans-serif;
-      color: white;
+      margin: 0; padding: 0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: var(--bg); color: var(--fg);
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
     }
 
-    body {
-      background-color: rgba(0, 0, 0, 0.9);
+    /* Skip-Link für A11y */
+    .skip-link{
+      position:absolute; left:-999px; top:auto; width:1px; height:1px; overflow:hidden;
+    }
+    .skip-link:focus{ position:fixed; left:16px; top:16px; width:auto; height:auto; padding:10px 14px; background:var(--accent); color:#000; z-index:9999; border-radius:8px }
+
+    header{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: saturate(140%) blur(8px);
+      background: linear-gradient(to bottom, rgba(0,0,0,0.5), transparent);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav{
+      max-width:1200px; margin:0 auto; padding:14px 20px;
+      display:flex; align-items:center; justify-content:space-between;
+    }
+    .brand{ font-weight:800; letter-spacing:0.5px }
+    .brand small{ font-weight:400; color:var(--muted) }
+    nav a{
+      color:var(--fg); text-decoration:none; margin-left:20px; font-weight:500;
+      opacity:0.9;
+    }
+    nav a:hover{ opacity:1; color:var(--accent) }
+
+    .toggle-wrap{ display:flex; gap:8px; align-items:center }
+    .btn{
+      background:transparent; color:var(--fg); border:1px solid var(--border);
+      padding:8px 12px; border-radius:10px; cursor:pointer; font: inherit;
+      transition: transform .05s ease, background .2s ease;
+    }
+    .btn:hover{ background:var(--card) }
+    .btn:active{ transform: translateY(1px) }
+
+    /* Canvas Background */
+    canvas#bg{
+      position:fixed; inset:0; width:100vw; height:100vh; display:block; z-index:-1;
+      pointer-events:none;
+    }
+    .gradient-overlay{
+      position:fixed; inset:0; z-index:-2;
+      background: radial-gradient(60vw 60vw at 80% -10%, rgba(255,226,106,0.18), transparent 60%),
+                  radial-gradient(40vw 40vw at 0% 100%, rgba(122,92,255,0.14), transparent 60%);
     }
 
-    canvas {
-      display: block;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: -1;
-      background: transparent;
+    /* Hero */
+    .hero{
+      min-height:78vh; display:flex; align-items:center; justify-content:center; text-align:center;
+      padding:80px 20px 40px;
+    }
+    .hero-inner{ max-width:980px }
+    h1{
+      font-size: clamp(32px, 5vw, 60px); line-height:1.05; margin:0 0 14px 0;
+      letter-spacing:-0.5px;
+    }
+    .lead{
+      font-size: clamp(16px, 2.2vw, 20px);
+      color:var(--muted); margin:0 auto 26px; max-width:800px;
+    }
+    .cta{
+      display:flex; gap:12px; justify-content:center; flex-wrap:wrap;
+      margin-top:12px;
+    }
+    .cta .btn.primary{
+      background:var(--accent); color:#111; border-color:transparent; font-weight:700;
+    }
+    .cta .btn.primary:hover{ filter:brightness(1.05) }
+
+    /* Sections */
+    section{ padding:80px 20px }
+    .container{ max-width:1200px; margin:0 auto }
+
+    .section-title{
+      font-size: clamp(22px, 3vw, 32px); margin:0 0 24px; letter-spacing:-0.2px;
+    }
+    .section-sub{ color:var(--muted); margin-top:-10px; margin-bottom:28px }
+
+    /* Grid */
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap:18px;
+    }
+    .card{
+      grid-column: span 4;
+      background:var(--card); border:1px solid var(--border);
+      border-radius:14px; padding:18px; box-shadow: var(--shadow);
+      transition: transform .15s ease, border-color .2s ease;
+    }
+    .card:hover{ transform: translateY(-2px); border-color: rgba(255,255,255,0.16) }
+    .card h3{ margin:6px 0 8px }
+    .card p{ color:var(--muted); margin:0 }
+    .badge{
+      display:inline-block; padding:6px 10px; border-radius:999px;
+      border:1px solid var(--border); font-size:12px; color:var(--muted);
+      margin-bottom:10px;
     }
 
-    .hero {
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      position: relative;
+    .split{
+      display:grid; grid-template-columns: 1.2fr 1fr; gap:24px;
+    }
+    .panel{
+      background:var(--card); border:1px solid var(--border); border-radius:14px; padding:20px; box-shadow: var(--shadow);
+    }
+    ul.clean{ list-style:none; padding-left:0; margin:0 }
+    ul.clean li{ padding:8px 0; border-bottom:1px dashed var(--border) }
+    ul.clean li:last-child{ border-bottom:0 }
+
+    /* Footer */
+    footer{
+      border-top:1px solid var(--border); color:var(--muted);
+      padding:30px 20px 60px;
+    }
+    .foot{ max-width:1200px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap }
+    .links a{ color:var(--muted); text-decoration:none; margin-right:14px }
+    .links a:hover{ color:var(--accent) }
+
+    /* Responsive */
+    @media (max-width:1024px){
+      .card{ grid-column: span 6 }
+      .split{ grid-template-columns: 1fr; }
+    }
+    @media (max-width:640px){
+      nav a{ margin-left:14px }
+      .card{ grid-column: span 12 }
+      .hero{ padding-top:100px }
     }
 
-    .title {
-      font-size: 3em;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-
-    .subtitle {
-      font-size: 1.2em;
-      color: #ccc;
-    }
-
-    .icons {
-      margin-top: 20px;
-    }
-
-    .icons a {
-      color: white;
-      margin: 0 10px;
-      font-size: 1.5em;
-      text-decoration: none;
-      transition: color 0.3s;
-    }
-
-    .icons a:hover {
-      color: gold;
-    }
-
-    .divider {
-      height: 1px;
-      background: rgba(255, 255, 255, 0.2);
-      margin: 0 10%;
-    }
-
-    section {
-      padding: 80px 20px;
-      max-width: 1000px;
-      margin: 0 auto;
-      text-align: center;
-    }
-
-    .lang-toggle {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 10;
-    }
-
-    .lang-toggle button {
-      background: none;
-      border: 1px solid white;
-      color: white;
-      padding: 5px 10px;
-      margin-left: 5px;
-      cursor: pointer;
-      font-size: 0.9em;
-      transition: background 0.2s;
-    }
-
-    .lang-toggle button:hover {
-      background: white;
-      color: black;
-    }
+    /* Reveal Animation (CSS, getriggert via JS) */
+    .reveal{ opacity:0; transform: translateY(14px); transition: opacity .6s ease, transform .6s ease }
+    .reveal.visible{ opacity:1; transform: none }
   </style>
-
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
-<body>
-  <!-- Language Toggle -->
-  <div class="lang-toggle">
-    <button onclick="setLanguage('en')">EN</button>
-    <button onclick="setLanguage('de')">DE</button>
-  </div>
+<body data-theme="dark">
+  <a href="#main" class="skip-link">Zum Inhalt springen</a>
 
-  <!-- Hero Section -->
-  <div class="hero">
-    <div class="title" id="title">Maximilian Hackl</div>
-    <div class="subtitle" id="subtitle">Live VJ Grid Visualizer</div>
-    <div class="icons">
-      <a href="https://github.com/ga94wux/vjing_grid_visualizer" target="_blank"><i class="fab fa-github"></i></a>
-      <a href="mailto:ga94wux@mytum.de"><i class="fas fa-envelope"></i></a>
+  <!-- Subtle background -->
+  <canvas id="bg" aria-hidden="true"></canvas>
+  <div class="gradient-overlay" aria-hidden="true"></div>
+
+  <header>
+    <div class="nav">
+      <div class="brand">Maximilian Hackl <small>— Engineering × AV</small></div>
+      <div class="toggle-wrap">
+        <nav aria-label="Hauptnavigation">
+          <a href="#work">Projekte</a>
+          <a href="#talks">Talks</a>
+          <a href="#contact">Kontakt</a>
+        </nav>
+        <button class="btn" id="themeBtn" aria-label="Theme umschalten">Theme</button>
+        <button class="btn" id="langBtn" aria-label="Sprache umschalten">EN/DE</button>
+      </div>
     </div>
-  </div>
+  </header>
 
-  <div class="divider"></div>
+  <main id="main">
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-inner reveal">
+        <h1 id="h-title">Autonomous 3D Scanning & Audiovisual Minimalism</h1>
+        <p class="lead" id="h-lead">
+          Roboterbasierte 3D-Datenerfassung, LiDAR/SLAM und Punktwolken-Pipelines für industrielle Digitale Zwillinge —
+          kombiniert mit live-codierten, signalbasierten Visuals.
+        </p>
+        <div class="cta">
+          <a class="btn primary" href="#work" id="cta-primary">Projekte ansehen</a>
+          <a class="btn" href="mailto:ga94wux@mytum.de" id="cta-secondary">Kontakt aufnehmen</a>
+        </div>
+      </div>
+    </section>
 
-  <!-- Section 1 -->
-  <section>
-    <h2 id="section1-title">About the Project</h2>
-    <p id="section1-body">An homage to early electronic sound art. This visual composition translates signal flow, wavelengths, and modulated amplitudes into an abstracted grid field – inspired by oscilloscopes, analog synthesizer design, and the aesthetics of minimal frequency space. Reduction, repetition, transformation: The web version emulates a rhythmically breathing structure – a digital instrument for visualizing motion in space.</p>
-  </section>
+    <!-- What I do -->
+    <section class="container reveal">
+      <h2 class="section-title" id="s1-title">Schwerpunkte</h2>
+      <p class="section-sub" id="s1-sub">Von der Sensorik bis zur Integration in Produktions-IT — Ende-zu-Ende.</p>
+      <div class="grid">
+        <article class="card">
+          <span class="badge" id="b1">Industrial</span>
+          <h3 id="c1-h">Autonomous Scanning</h3>
+          <p id="c1-p">ROS/ROS2-Stacks, Sensorfusion, Trajektorien, Qualitätssicherung; AMR/UAV/Spot-Integration.</p>
+        </article>
+        <article class="card">
+          <span class="badge" id="b2">Data</span>
+          <h3 id="c2-h">Point Cloud Pipelines</h3>
+          <p id="c2-p">Voxel-Processing, Segmentierung/Labeling, Metriken, .LAS/.PLY/.NPY, GPU-Beschleunigung.</p>
+        </article>
+        <article class="card">
+          <span class="badge" id="b3">AV</span>
+          <h3 id="c3-h">Live Visuals</h3>
+          <p id="c3-p">Audio-reaktive Raster, Shader-Experimente, minimalistische, frequenzbasierte Bildsysteme.</p>
+        </article>
+      </div>
+    </section>
 
-  <div class="divider"></div>
+    <!-- Featured work -->
+    <section id="work" class="container reveal">
+      <h2 class="section-title" id="s2-title">Ausgewählte Projekte</h2>
+      <div class="grid">
+        <article class="card">
+          <span class="badge">FactoryViewer</span>
+          <h3>Cloud Pointcloud Viewer</h3>
+          <p>Globaler Zugriff auf 360°/LiDAR-Daten; Rollen/Rechte, Metriken, Upload-Pipelines.</p>
+        </article>
+        <article class="card">
+          <span class="badge">SLAM</span>
+          <h3>Quality-Controlled MLS/TLS</h3>
+          <p>Voxelige Vollständigkeitsanalyse, Driftkontrolle, Loop-Closures, Berichtsautomatisierung.</p>
+        </article>
+        <article class="card">
+          <span class="badge">AV</span>
+          <h3>Signal-Grid Performance</h3>
+          <p>Audio-getriebene Visuals mit spektraler Modulation; reduzierte, rhythmische Strukturen.</p>
+        </article>
+      </div>
+    </section>
 
-  <!-- Section 2 -->
-  <section>
-    <h2 id="section2-title">Code & Intention</h2>
-    <p id="section2-body">The underlying system is based on a live visualization architecture using OpenGL – driven by frequency analysis and time-based wave simulation. The web version is implemented in Three.js to provide immersive access through the browser. Full source code is available on GitHub – open for interpretation, modification, and extension in the spirit of modular sound and image systems.</p>
-    <a href="https://github.com/ga94wux/vjing_grid_visualizer" target="_blank">🔗 GitHub Repository</a>
-  </section>
+    <!-- Talks / Publications -->
+    <section id="talks" class="container reveal">
+      <h2 class="section-title" id="s3-title">Talks & Publikationen</h2>
+      <div class="split">
+        <div class="panel">
+          <h3 id="t1">Aktuell</h3>
+          <ul class="clean" id="talk-list">
+            <li>„Quality-Controlled Mobile Laser Scanning Towards the Digital Twin“ — Innovationsmeeting PI-D</li>
+            <li>Vollständigkeitsanalyse von Punktwolken (Paper in Vorbereitung)</li>
+            <li>Autonomous 3D Scanning: Advancements, Challenges, and Integration Strategies (Dissertation)</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h3 id="t2">Themen</h3>
+          <ul class="clean" id="topic-list">
+            <li>LiDAR/SLAM • Sensorphysik • Graphbasierte Optimierung</li>
+            <li>Digitale Zwillinge • Produktionsintegration • DevOps</li>
+            <li>Audio-Visuelle Systeme • Signalfluss • Shader</li>
+          </ul>
+        </div>
+      </div>
+    </section>
 
-  <!-- Background Canvas -->
-  <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
+    <!-- Contact -->
+    <section id="contact" class="container reveal">
+      <h2 class="section-title" id="s4-title">Kontakt</h2>
+      <p class="section-sub" id="s4-sub">Für Kollaboration, Vorträge oder Projekte.</p>
+      <form class="split" onsubmit="event.preventDefault(); alert(msg('thanks')); this.reset();">
+        <div class="panel">
+          <label for="name" id="lbl-name">Name</label><br/>
+          <input id="name" name="name" required style="width:100%; padding:12px; border-radius:10px; border:1px solid var(--border); background:var(--card); color:var(--fg); margin-top:6px">
+        </div>
+        <div class="panel">
+          <label for="email" id="lbl-email">E-Mail</label><br/>
+          <input id="email" name="email" type="email" required style="width:100%; padding:12px; border-radius:10px; border:1px solid var(--border); background:var(--card); color:var(--fg); margin-top:6px">
+        </div>
+        <div class="panel" style="grid-column: 1 / -1;">
+          <label for="message" id="lbl-msg">Nachricht</label><br/>
+          <textarea id="message" name="message" rows="6" required style="width:100%; padding:12px; border-radius:10px; border:1px solid var(--border); background:var(--card); color:var(--fg); margin-top:6px"></textarea>
+          <div style="margin-top:14px; display:flex; gap:10px">
+            <button class="btn primary" type="submit" id="btn-send">Absenden</button>
+            <a class="btn" href="mailto:ga94wux@mytum.de" id="btn-mail">Direkt per Mail</a>
+          </div>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <div class="foot">
+      <div>© <span id="year"></span> Maximilian Hackl</div>
+      <div class="links">
+        <a href="#work">Projekte</a>
+        <a href="#talks">Talks</a>
+        <a href="#contact">Kontakt</a>
+      </div>
+    </div>
+  </footer>
+
   <script>
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 0.1, 1000);
-    camera.position.set(0, 8, 50);
-    camera.lookAt(0, 0, 0);
+    // -----------------------------
+    // Lightweight animated canvas: moving signal lines
+    // -----------------------------
+    const canvas = document.getElementById('bg');
+    const ctx = canvas.getContext('2d');
+    let w, h, dpr, lines;
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(renderer.domElement);
-
-    const gridSize = 30, spacing = 1.0;
-    const amplitude = 3.0, frequency = 1.0, speed = 2.0;
-
-    const geometry = new THREE.BufferGeometry();
-    const positions = [], indices = [];
-
-    for (let i = 0; i < gridSize; i++) {
-      for (let j = 0; j < gridSize; j++) {
-        const x = (i - gridSize / 2) * spacing;
-        const z = (j - gridSize / 2) * spacing;
-        positions.push(x, 0, z);
-      }
+    function resize(){
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      w = canvas.width = Math.floor(innerWidth * dpr);
+      h = canvas.height = Math.floor(innerHeight * dpr);
+      canvas.style.width = innerWidth + 'px';
+      canvas.style.height = innerHeight + 'px';
+      initLines();
     }
 
-    for (let i = 0; i < gridSize - 1; i++) {
-      for (let j = 0; j < gridSize - 1; j++) {
-        const a = i * gridSize + j;
-        indices.push(a, a + 1, a, a + gridSize);
-      }
+    function initLines(){
+      const count = Math.max(16, Math.floor(innerWidth / 90));
+      lines = new Array(count).fill(0).map((_,i)=>({
+        y: (h/(count+1)) * (i+1),
+        phase: Math.random()*Math.PI*2,
+        speed: 0.002 + Math.random()*0.003,
+        amp: (8 + Math.random()*16) * dpr,
+        k: 0.002 + Math.random()*0.004
+      }));
     }
 
-    geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-    geometry.setIndex(indices);
-
-    const material = new THREE.LineBasicMaterial({ color: 0xffff00 });
-    const mesh = new THREE.LineSegments(geometry, material);
-    scene.add(mesh);
-
-    const clock = new THREE.Clock();
-    function animate() {
-      requestAnimationFrame(animate);
-      const t = clock.getElapsedTime() * speed;
-      const pos = geometry.attributes.position;
-
-      for (let i = 0; i < pos.count; i++) {
-        const x = pos.getX(i);
-        const z = pos.getZ(i);
-        const dist = Math.sqrt(x * x + z * z);
-        const y = amplitude * Math.sin(frequency * dist - t);
-        pos.setY(i, y);
-      }
-
-      pos.needsUpdate = true;
-
-      const hue = (t * 10) % 360;
-      const rgb = hslToRgb(hue / 360, 1, 0.5);
-      material.color.setRGB(rgb[0], rgb[1], rgb[2]);
-
-      renderer.render(scene, camera);
-    }
-    animate();
-
-    function hslToRgb(h, s, l) {
-      let r, g, b;
-      if (s == 0) { r = g = b = l; }
-      else {
-        const hue2rgb = (p, q, t) => {
-          if (t < 0) t += 1;
-          if (t > 1) t -= 1;
-          if (t < 1/6) return p + (q - p) * 6 * t;
-          if (t < 1/2) return q;
-          if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
-          return p;
-        };
-        const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-        const p = 2 * l - q;
-        r = hue2rgb(p, q, h + 1/3);
-        g = hue2rgb(p, q, h);
-        b = hue2rgb(p, q, h - 1/3);
-      }
-      return [r, g, b];
-    }
-
-    window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    });
-
-    function setLanguage(lang) {
-      const content = {
-        en: {
-          title: "Maximilian Hackl",
-          subtitle: "Live VJ Grid Visualizer",
-          section1Title: "About the Project",
-          section1Body: "An homage to early electronic sound art. This visual composition translates signal flow, wavelengths, and modulated amplitudes into an abstracted grid field – inspired by oscilloscopes, analog synthesizer design, and the aesthetics of minimal frequency space. Reduction, repetition, transformation: The web version emulates a rhythmically breathing structure – a digital instrument for visualizing motion in space.",
-          section2Title: "Code & Intention",
-          section2Body: "The underlying system is based on a live visualization architecture using OpenGL – driven by frequency analysis and time-based wave simulation. The web version is implemented in Three.js to provide immersive access through the browser. Full source code is available on GitHub – open for interpretation, modification, and extension in the spirit of modular sound and image systems."
-        },
-        de: {
-          title: "Maximilian Hackl",
-          subtitle: "Live-VJ-Gitter-Visualizer",
-          section1Title: "Über das Projekt",
-          section1Body: "Eine Hommage an frühe elektronische Klangkunst. Diese visuelle Komposition übersetzt Signalflüsse, Wellenlängen und modulierte Amplituden in ein abstrahiertes Gitterfeld – inspiriert von Oszilloskopen, analogem Synthesizer-Design und der Ästhetik minimalistisch strukturierter Frequenzräume. Reduktion, Wiederholung, Transformation: Die Web-Version emuliert eine rhythmisch atmende Struktur – ein digitales Instrument zur Visualisierung von Bewegung im Raum.",
-          section2Title: "Code & Intention",
-          section2Body: "Das zugrundeliegende System basiert auf einer OpenGL-Architektur für Live-Visualisierung – gesteuert durch Frequenzanalyse und zeitbasierte Wellensimulation. Die Webumsetzung in Three.js ermöglicht einen immersiven Zugang über den Browser. Der vollständige Quellcode ist auf GitHub verfügbar – offen für Interpretation, Modifikation und Erweiterung im Geist modularer Klang- und Bildsysteme."
-        }
-      };
-
-      const t = content[lang];
-      document.getElementById('title').innerText = t.title;
-      document.getElementById('subtitle').innerText = t.subtitle;
-      document.getElementById('section1-title').innerText = t.section1Title;
-      document.getElementById('section1-body').innerText = t.section1Body;
-      document.getElementById('section2-title').innerText = t.section2Title;
-      document.getElementById('section2-body').innerText = t.section2Body;
-    }
-  </script>
-</body>
-</html>
+    function draw(t){
+      ctx.clearRect(0,0,w,h);
+      for(const L of lines){
+        L.phase += L.speed * (1 + Math.sin(t*0.0002)*0.2);
+       
