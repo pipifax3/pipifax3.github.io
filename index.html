@@ -2,284 +2,384 @@
 <html lang="de">
 <head>
   <meta charset="utf-8" />
-  <title>Skizzen & Notizen</title>
+  <title>Stickerboard — Skizzen & Notizen</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <!-- Handwritten / messy fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&family=Shadows+Into+Light&family=Caveat:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&family=Shadows+Into+Light&family=Caveat:wght@600;700&family=Permanent+Marker&family=Architects+Daughter&display=swap" rel="stylesheet">
 
   <style>
-    /* ====== Grundlook: weißes Papier mit feiner Textur ====== */
     :root{
-      --bg: #fffdf9;       /* warm-weiß */
-      --ink: #111;         /* schwarzer Text */
-      --border: rgba(0,0,0,0.22);
-      --shadow: rgba(0,0,0,0.06);
-      --tape: #f1e6a8;
+      --paper:#fffdf6; --ink:#111;
+      --border:rgba(0,0,0,.25); --shadow:rgba(0,0,0,.08);
+      --pin:#e74c3c; --pin-dark:#b3392c;
+      --s1:#fff3b0; --s2:#baffc9; --s3:#bae1ff; --s4:#ffd6e0; --s5:#f7f7f7;
+      --s6:#ffeaa7; --s7:#caffbf; --s8:#fdffb6; --s9:#ffd6a5; --s10:#e0fbfc;
     }
-    html, body { margin:0; padding:0 }
+    html,body{margin:0;padding:0}
     body{
-      background: var(--bg);
-      color: var(--ink);
-      font-family: "Gloria Hallelujah","Shadows Into Light","Caveat", cursive, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      font-style: italic;  /* bewusst „messy/kurvig“ */
-      line-height: 1.25;
+      background:var(--paper); color:var(--ink);
+      font-family:"Gloria Hallelujah","Shadows Into Light","Caveat","Architects Daughter","Permanent Marker",cursive,system-ui;
+      line-height:1.25;
     }
-    /* zarte Vignette + ultra-feines Rauschen für Papierstruktur */
+
+    /* --- Fotoartige Papiertextur (eingebettet) --- */
     body::before{
-      content:"";
-      position:fixed; inset:0; z-index:-2; pointer-events:none;
+      content:""; position:fixed; inset:0; z-index:-3; pointer-events:none;
       background:
-        radial-gradient(80vw 70vh at 20% -10%, rgba(0,0,0,0.06), transparent 60%),
-        radial-gradient(80vw 70vh at 100% 120%, rgba(0,0,0,0.05), transparent 60%),
-        linear-gradient(180deg, rgba(0,0,0,0.02), rgba(255,255,255,0.02));
+        /* leichte Vignette */
+        radial-gradient(120vw 80vh at 20% -10%, rgba(0,0,0,.06), transparent 60%),
+        radial-gradient(120vw 80vh at 100% 120%, rgba(0,0,0,.05), transparent 60%);
     }
     body::after{
-      content:"";
-      position:fixed; inset:0; z-index:-1; pointer-events:none; opacity:.18;
-      background-image: url("data:image/svg+xml;utf8,\
-        <svg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'>\
-          <filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/></filter>\
-          <rect width='100%' height='100%' filter='url(%23n)' opacity='0.05'/>\
-        </svg>");
-      background-size: 220px 220px;
+      content:""; position:fixed; inset:0; z-index:-2; pointer-events:none; opacity:.55;
+      /* „papierfaser“-svg + feines noise */
+      background-image:
+        url("data:image/svg+xml;utf8,\
+          <svg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'>\
+            <defs>\
+              <filter id='f'><feTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='1' stitchTiles='stitch'/></filter>\
+              <filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.015' numOctaves='3'/><feColorMatrix type='saturate' values='0'/><feComponentTransfer><feFuncA type='table' tableValues='0 0.12'/></feComponentTransfer></filter>\
+            </defs>\
+            <rect width='100%' height='100%' fill='%23fffdf6'/>\
+            <rect width='100%' height='100%' filter='url(%23g)' opacity='0.55'/>\
+            <rect width='100%' height='100%' filter='url(%23f)' opacity='0.03'/>\
+          </svg>");
+      background-size: 600px 600px;
     }
 
-    /* ====== Header + Sprachumschaltung ====== */
     header{
-      display:flex; align-items:center; justify-content:space-between;
-      padding:16px 18px 8px; position:sticky; top:0;
-      background: linear-gradient(var(--bg) 70%, transparent);
-      border-bottom: 1px dashed var(--border);
+      position:sticky; top:0; z-index:10;
+      display:flex; justify-content:space-between; align-items:center;
+      padding:16px 16px 10px; background:linear-gradient(var(--paper) 70%, transparent);
+      border-bottom:1px dashed rgba(0,0,0,.15);
     }
     .brand{
-      font-size: clamp(20px, 4vw, 34px);
-      transform: rotate(-1.2deg);
-      text-decoration: underline wavy rgba(0,0,0,0.35);
-      text-underline-offset: 4px;
-      margin: 0;
+      margin:0; font-size:clamp(22px,4.5vw,40px);
+      font-family:"Permanent Marker","Gloria Hallelujah",cursive;
+      transform:rotate(-1.5deg);
+      text-decoration:underline wavy rgba(0,0,0,.35);
+      text-underline-offset:6px;
     }
-    .lang{ display:flex; gap:8px }
+    .lang{display:flex; gap:8px}
     .btn{
-      border:1px dashed var(--border);
-      background:#fff9d6;
-      padding:6px 10px; cursor:pointer; font: inherit;
-      border-radius:6px; box-shadow: 2px 2px 0 var(--shadow);
-      transform: rotate(0.8deg);
+      border:1px dashed rgba(0,0,0,.25); background:#fff9d6; color:var(--ink);
+      padding:6px 10px; border-radius:7px; cursor:pointer; font:inherit;
+      box-shadow:2px 2px 0 var(--shadow); transform:rotate(.8deg);
     }
-    .btn:hover{ transform: rotate(0.8deg) translateY(-1px) }
+    .btn:hover{ transform:rotate(.8deg) translateY(-1px) }
+    .btn.secondary{ background:#fff; }
 
-    /* ====== Collage-Layout: bewusst chaotisch ====== */
-    main{ padding: 22px 14px 60px }
-    .collage{
-      display:grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap: 16px 12px;
-      max-width: 1200px; margin: 0 auto;
-    }
-    .bit{
-      background:#fffef7;
-      border:1px solid var(--border);
-      box-shadow: 4px 4px 0 var(--shadow);
-      padding: 12px 14px;
-      position: relative;
-    }
-    /* Tape oben links für „Papier“-Gefühl */
-    .bit::before{
-      content:"";
-      position:absolute; width:74px; height:18px; left:12px; top:-10px;
-      background: repeating-linear-gradient(45deg, var(--tape), var(--tape) 9px, #efe29f 9px, #efe29f 18px);
-      transform: rotate(-6deg);
-      box-shadow: 1px 2px 0 rgba(0,0,0,0.2);
-      opacity: .92;
+    main{ padding:22px 12px 70px }
+    .board{
+      max-width:1200px; margin:0 auto;
+      display:grid; gap:16px 14px;
+      grid-template-columns:repeat(12,1fr);
+      position:relative; /* für Drag-Z-Index-Kontext */
     }
 
-    .bit h2, .bit h3{ margin:6px 0 6px; font-size: clamp(18px, 2.6vw, 26px) }
-    .bit p{ margin:0; font-size: clamp(15px, 2.1vw, 18px) }
+    /* --- Sticker-Basis --- */
+    .sticker{
+      position:relative; padding:14px 16px;
+      border:2px solid var(--border); box-shadow:4px 4px 0 var(--shadow);
+      background:var(--s5); cursor:grab; touch-action:none; /* wichtig für Touch-Drag */
+      will-change: transform;
+      user-select:none;
+    }
+    .sticker:active{ cursor:grabbing }
 
-    /* Nicht zentrieren: mal links, mal rechts, leichte Rotationen */
-    .left  { justify-self:start }
-    .right { justify-self:end }
-    .tilt-1{ transform: rotate(-1.6deg) }
-    .tilt-2{ transform: rotate(1.3deg) }
-    .tilt-3{ transform: rotate(-0.8deg) }
-    .tilt-4{ transform: rotate(2deg) }
-    .scribble{ text-decoration: underline wavy rgba(0,0,0,0.35); text-underline-offset:6px }
+    /* Farbvarianten */
+    .s1{background:var(--s1)} .s2{background:var(--s2)} .s3{background:var(--s3)}
+    .s4{background:var(--s4)} .s6{background:var(--s6)} .s7{background:var(--s7)}
+    .s8{background:var(--s8)} .s9{background:var(--s9)} .s10{background:var(--s10)}
 
-    /* Spalten-Spans für „Chaos“ */
-    .span-7{ grid-column: span 7 }
-    .span-5{ grid-column: span 5 }
-    .span-8{ grid-column: span 8 }
-    .span-4{ grid-column: span 4 }
+    /* Start-Rotationen (leicht) – zusätzliche Chaos-Offets kommen per JS */
+    .tilt-a{ transform:rotate(-2deg) } .tilt-b{ transform:rotate(1.6deg) }
+    .tilt-c{ transform:rotate(-0.9deg) } .tilt-d{ transform:rotate(2.2deg) }
 
-    /* Platzhalterbilder als eingebettete SVGs (echte <img>-Tags optional) */
-    .ph{
-      display:block; width:100%; aspect-ratio: 4 / 3; background:#fff;
-      border:2px solid #111; box-shadow: 4px 4px 0 var(--shadow);
+    /* Sticker-Zierde */
+    .pin::after{
+      content:""; position:absolute; width:14px; height:14px; right:16px; top:10px;
+      background:radial-gradient(circle at 35% 35%, #fff 0 30%, var(--pin) 31% 100%);
+      border:1px solid var(--pin-dark); border-radius:50%;
+      box-shadow:1px 1px 0 rgba(0,0,0,.25);
     }
 
-    /* Textausrichtung nicht einheitlich */
-    .bit :is(h2,h3,p){ text-align:left }
-    .right .bit :is(h2,h3,p){ text-align:right }
-
-    /* Responsiv: mobil alles untereinander, aber Rotationen bleiben */
-    @media (max-width: 920px){
-      .span-7, .span-5, .span-8, .span-4{ grid-column: span 12 }
-      .right{ justify-self:start }
+    /* „Fotorealistisches“ Tape (eingebettete Textur) */
+    .tape::before{
+      content:""; position:absolute; left:14px; top:-14px; width:94px; height:26px; opacity:.95;
+      background-image:url('data:image/svg+xml;utf8,\
+        <svg xmlns="http://www.w3.org/2000/svg" width="188" height="52" viewBox="0 0 188 52">\
+          <defs>\
+            <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2"/><feColorMatrix type="saturate" values="0.2"/></filter>\
+            <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">\
+              <stop offset="0" stop-color="#f2e6a8"/><stop offset="1" stop-color="#eadf9a"/>\
+            </linearGradient>\
+          </defs>\
+          <rect x="2" y="2" width="184" height="48" rx="4" fill="url(#g)" filter="url(%23grain)" opacity="0.95"/>\
+          <path d="M6 6 L182 6 M6 46 L182 46" stroke="#b5ab7a" stroke-width="1" opacity="0.35"/>\
+          <path d="M0 10 L188 8" stroke="#c9be8c" stroke-width="2" opacity="0.25"/>\
+        </svg>');
+      background-size:cover; background-repeat:no-repeat;
+      transform:rotate(-7deg);
+      box-shadow:1px 2px 0 rgba(0,0,0,.2);
     }
+
+    .dogear::after{
+      content:""; position:absolute; right:0; top:0; width:0; height:0;
+      border-left:18px solid transparent; border-bottom:18px solid rgba(0,0,0,.18);
+    }
+
+    /* Fonts/Größen */
+    h2,h3{ margin:6px 0 6px }
+    .f1{ font-family:"Gloria Hallelujah",cursive }
+    .f2{ font-family:"Caveat",cursive }
+    .f3{ font-family:"Architects Daughter",cursive }
+    .f4{ font-family:"Shadows Into Light",cursive }
+    .marker{ font-family:"Permanent Marker","Gloria Hallelujah",cursive; letter-spacing:.3px }
+    .small{ font-size:clamp(14px,2vw,16px) }
+    .mid{ font-size:clamp(16px,2.4vw,18px) }
+    .big{ font-size:clamp(20px,3.2vw,28px) }
+    .xl { font-size:clamp(24px,5vw,40px) }
+
+    .icons{ display:flex; gap:10px; align-items:center; flex-wrap:wrap }
+    .i-s{ font-size:22px } .i-m{ font-size:32px } .i-l{ font-size:46px }
+
+    .ph{ display:block; width:100%; aspect-ratio:4/3; background:#fff; border:2px solid #111; box-shadow:4px 4px 0 var(--shadow) }
+    .ph--x{ background-image:url("data:image/svg+xml;utf8,\
+      <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600'>\
+        <rect width='100%' height='100%' fill='%23ffffff'/>\
+        <path d='M30 560 L770 40' stroke='%23000' stroke-width='6' stroke-dasharray='12 10'/>\
+        <path d='M30 40 L770 560' stroke='%23000' stroke-width='6' stroke-dasharray='10 12'/>\
+        <text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-size='48' font-family='Courier New' fill='%23000'>PLATZHALTER</text>\
+      </svg>"); background-size:cover; background-position:center; }
+    .ph--rings{ background-image:url("data:image/svg+xml;utf8,\
+      <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600'>\
+        <rect width='100%' height='100%' fill='%23ffffff'/>\
+        <circle cx='200' cy='300' r='130' fill='none' stroke='%23000' stroke-width='5' stroke-dasharray='5 9'/>\
+        <circle cx='600' cy='300' r='110' fill='none' stroke='%23000' stroke-width='5' stroke-dasharray='9 7'/>\
+        <text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-size='48' font-family='Courier New' fill='%23000'>PLATZHALTER</text>\
+      </svg>"); background-size:cover; background-position:center; }
+
+    /* Layout / Spans */
+    .span-4{ grid-column:span 4 } .span-5{ grid-column:span 5 }
+    .span-6{ grid-column:span 6 } .span-7{ grid-column:span 7 }
+    .left{ justify-self:start } .right{ justify-self:end }
+    .left .sticker :is(h2,h3,p,ul){ text-align:left }
+    .right .sticker :is(h2,h3,p,ul){ text-align:right }
+
+    /* Responsiv */
+    @media (max-width:980px){ .span-7,.span-6{ grid-column:span 12 } }
+    @media (max-width:640px){ .span-5,.span-4{ grid-column:span 12 } }
   </style>
 </head>
 <body>
   <header>
-    <h1 class="brand" id="brand">Skizzen & Notizen</h1>
+    <h1 class="brand" id="brand">Stickerboard — Skizzen & Notizen</h1>
     <div class="lang">
       <button class="btn" onclick="setLang('de')">DE</button>
       <button class="btn" onclick="setLang('en')">EN</button>
+      <button class="btn secondary" id="resetBtn" title="Zufällige Offsets neu würfeln">Reset</button>
     </div>
   </header>
 
   <main>
-    <section class="collage" aria-live="polite">
+    <section class="board" id="board" aria-live="polite">
       <!-- 1 -->
-      <div class="span-7 left tilt-1">
-        <article class="bit">
-          <h2 id="h1">Projekt-Schnipsel</h2>
-          <p id="p1">Lose Gedanken zu LiDAR, Robotik und AV-Visuals — auf Papier geworfen.</p>
+      <div class="span-7 left">
+        <article class="sticker s8 tape tilt-a draggable" data-id="s-1">
+          <h2 id="h1" class="marker xl">Projekt-Schnipsel</h2>
+          <p id="p1" class="f3 mid">Lose Gedanken zu LiDAR, Robotik und AV-Visuals — auf Papier geklebt.</p>
+          <div class="icons" aria-hidden="true" style="margin-top:8px">
+            <span class="i-l">⭐</span><span class="i-m">⚡</span><span class="i-s">🎯</span>
+          </div>
         </article>
       </div>
 
       <!-- 2 -->
-      <div class="span-5 right tilt-2">
-        <figure class="bit" aria-labelledby="img1-cap">
-          <svg class="ph" viewBox="0 0 800 600" role="img" aria-labelledby="img1-title img1-desc">
-            <title id="img1-title">Platzhalterbild</title>
-            <desc id="img1-desc">Skizzenhaftes X-Muster</desc>
-            <rect width="100%" height="100%" fill="#ffffff"/>
-            <path d="M30 560 L770 40" stroke="#000" stroke-width="6" stroke-dasharray="12 10"/>
-            <path d="M30 40 L770 560" stroke="#000" stroke-width="6" stroke-dasharray="10 12"/>
-            <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="48" font-family="Courier New" fill="#000">PLATZHALTER</text>
-          </svg>
-          <figcaption id="img1-cap" style="display:none">Platzhalterbild 1</figcaption>
+      <div class="span-5 right">
+        <figure class="sticker s2 pin tilt-b draggable" data-id="s-2">
+          <div class="ph ph--x" role="img" aria-label="Platzhalterbild 1"></div>
+          <figcaption class="small f2" style="opacity:.7">#01 — Rohentwurf</figcaption>
         </figure>
       </div>
 
       <!-- 3 -->
-      <div class="span-4 left tilt-3">
-        <article class="bit">
-          <h3 id="h2" class="scribble">Punktwolken</h3>
-          <p id="p2">Voxel, Labeling, Vollständigkeit. Notizen, die aussehen wie EKG-Linien.</p>
+      <div class="span-4 left">
+        <article class="sticker s1 dogear tilt-c draggable" data-id="s-3">
+          <h3 id="h2" class="f1 big">Punktwolken</h3>
+          <ul class="small f4" style="list-style:'— '; padding-left:1ch; margin:0">
+            <li id="l1">Voxel, Labeling, Vollständigkeit</li>
+            <li id="l2">Qualitätsmetriken & Drift</li>
+            <li id="l3">.LAS / .PLY / .NPY</li>
+          </ul>
         </article>
       </div>
 
       <!-- 4 -->
-      <div class="span-8 right tilt-4">
-        <figure class="bit" aria-labelledby="img2-cap">
-          <svg class="ph" viewBox="0 0 800 600" role="img" aria-labelledby="img2-title img2-desc">
-            <title id="img2-title">Platzhalterbild</title>
-            <desc id="img2-desc">Scribble-Kreise</desc>
-            <rect width="100%" height="100%" fill="#ffffff"/>
-            <circle cx="200" cy="300" r="140" fill="none" stroke="#000" stroke-width="5" stroke-dasharray="5 9"/>
-            <circle cx="600" cy="300" r="110" fill="none" stroke="#000" stroke-width="5" stroke-dasharray="9 7"/>
-            <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="48" font-family="Courier New" fill="#000">PLATZHALTER</text>
-          </svg>
-          <figcaption id="img2-cap" style="display:none">Platzhalterbild 2</figcaption>
+      <div class="span-7 right">
+        <figure class="sticker s4 tape tilt-d draggable" data-id="s-4">
+          <div class="ph ph--rings" role="img" aria-label="Platzhalterbild 2"></div>
+          <figcaption class="small f2" style="opacity:.7">#02 — Frequenzräume</figcaption>
         </figure>
       </div>
 
       <!-- 5 -->
-      <div class="span-5 left tilt-2">
-        <article class="bit">
-          <h3 id="h3">AV-Ästhetik</h3>
-          <p id="p3">Reduktion, Wiederholung, minimale Frequenzräume, wackelige Linien.</p>
+      <div class="span-5 left">
+        <article class="sticker s6 pin tilt-a draggable" data-id="s-5">
+          <h3 id="h3" class="marker big">AV-Ästhetik</h3>
+          <p id="p3" class="mid f3">Reduktion, Wiederholung, minimale Frequenzräume, wackelige Linien.</p>
+          <div class="icons" aria-hidden="true" style="margin-top:8px">
+            <span class="i-m">🎛️</span><span class="i-s">🎚️</span><span class="i-l">🎵</span>
+          </div>
         </article>
       </div>
 
       <!-- 6 -->
-      <div class="span-7 right tilt-1">
-        <figure class="bit" aria-labelledby="img3-cap">
-          <svg class="ph" viewBox="0 0 800 600" role="img" aria-labelledby="img3-title img3-desc">
-            <title id="img3-title">Platzhalterbild</title>
-            <desc id="img3-desc">Zickzack & Rahmen</desc>
-            <rect x="10" y="10" width="780" height="580" fill="none" stroke="#000" stroke-width="6"/>
-            <polyline points="40,520 120,420 200,520 280,420 360,520 440,420 520,520 600,420 680,520 760,420"
-                      fill="none" stroke="#000" stroke-width="6" stroke-dasharray="8 8"/>
-            <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="48" font-family="Courier New" fill="#000">PLATZHALTER</text>
-          </svg>
-          <figcaption id="img3-cap" style="display:none">Platzhalterbild 3</figcaption>
-        </figure>
-      </div>
-
-      <!-- 7 -->
-      <div class="span-8 left tilt-3">
-        <article class="bit">
-          <h3 id="h4">Kontakt</h3>
-          <p id="p4">Schick mir eine Mail: <a href="mailto:ga94wux@mytum.de">ga94wux@mytum.de</a></p>
+      <div class="span-6 right">
+        <article class="sticker s9 dogear tilt-b draggable" data-id="s-6">
+          <h3 id="h4" class="f2 big">Kontakt</h3>
+          <p id="p4" class="mid f4">Schick mir eine Mail: <a href="mailto:ga94wux@mytum.de">ga94wux@mytum.de</a></p>
         </article>
       </div>
 
-      <!-- 8 -->
-      <div class="span-4 right tilt-4">
-        <figure class="bit" aria-labelledby="img4-cap">
-          <svg class="ph" viewBox="0 0 800 600" role="img" aria-labelledby="img4-title img4-desc">
-            <title id="img4-title">Platzhalterbild</title>
-            <desc id="img4-desc">Schraffur und Stempel</desc>
-            <rect width="100%" height="100%" fill="#ffffff"/>
-            <path d="M40 560 L760 560" stroke="#000" stroke-width="6" stroke-dasharray="2 10"/>
-            <path d="M60 540 L740 540" stroke="#000" stroke-width="6" stroke-dasharray="2 10"/>
-            <circle cx="640" cy="120" r="70" fill="none" stroke="#000" stroke-width="6"/>
-            <text x="640" y="125" text-anchor="middle" font-size="28" font-family="Courier New" fill="#000">OK</text>
-            <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="48" font-family="Courier New" fill="#000">PLATZHALTER</text>
-          </svg>
-          <figcaption id="img4-cap" style="display:none">Platzhalterbild 4</figcaption>
-        </figure>
+      <!-- 7 -->
+      <div class="span-4 left">
+        <article class="sticker s10 tape tilt-c draggable" data-id="s-7">
+          <h3 id="h5" class="f4 big">Tools</h3>
+          <p id="p5" class="small f1">ROS/ROS2 • Open3D • PyTorch • GLSL • Three.js</p>
+        </article>
       </div>
     </section>
   </main>
 
   <script>
-    // ====== Simple i18n (DE/EN) mit Persistenz ======
-    const copy = {
+    // ------- i18n (DE/EN) mit Persistenz -------
+    const T = {
       de: {
-        brand: "Skizzen & Notizen",
+        brand: "Stickerboard — Skizzen & Notizen",
         h1: "Projekt-Schnipsel",
-        p1: "Lose Gedanken zu LiDAR, Robotik und AV-Visuals — auf Papier geworfen.",
+        p1: "Lose Gedanken zu LiDAR, Robotik und AV-Visuals — auf Papier geklebt.",
         h2: "Punktwolken",
-        p2: "Voxel, Labeling, Vollständigkeit. Notizen, die aussehen wie EKG-Linien.",
+        l1: "Voxel, Labeling, Vollständigkeit",
+        l2: "Qualitätsmetriken & Drift",
+        l3: ".LAS / .PLY / .NPY",
         h3: "AV-Ästhetik",
         p3: "Reduktion, Wiederholung, minimale Frequenzräume, wackelige Linien.",
         h4: "Kontakt",
-        p4: 'Schick mir eine Mail: <a href="mailto:ga94wux@mytum.de">ga94wux@mytum.de</a>'
+        p4: 'Schick mir eine Mail: <a href="mailto:ga94wux@mytum.de">ga94wux@mytum.de</a>',
+        h5: "Tools",
+        p5: "ROS/ROS2 • Open3D • PyTorch • GLSL • Three.js"
       },
       en: {
-        brand: "Sketches & Notes",
+        brand: "Stickerboard — Sketches & Notes",
         h1: "Project Scraps",
-        p1: "Loose thoughts on LiDAR, robotics and AV visuals — tossed onto paper.",
+        p1: "Loose thoughts on LiDAR, robotics and AV visuals — taped to paper.",
         h2: "Point Clouds",
-        p2: "Voxels, labeling, completeness. Notes that look like ECG lines.",
+        l1: "Voxels, labeling, completeness",
+        l2: "Quality metrics & drift",
+        l3: ".LAS / .PLY / .NPY",
         h3: "AV Aesthetics",
         p3: "Reduction, repetition, minimal frequency spaces, wobbly lines.",
         h4: "Contact",
-        p4: 'Send me an email: <a href="mailto:ga94wux@mytum.de">ga94wux@mytum.de</a>'
+        p4: 'Send me an email: <a href="mailto:ga94wux@mytum.de">ga94wux@mytum.de</a>',
+        h5: "Tools",
+        p5: "ROS/ROS2 • Open3D • PyTorch • GLSL • Three.js"
       }
     };
 
     function setLang(lang){
       localStorage.setItem('lang', lang);
-      const t = copy[lang] || copy.de;
-      document.getElementById('brand').textContent = t.brand;
-      document.getElementById('h1').textContent = t.h1;
-      document.getElementById('p1').textContent = t.p1;
-      document.getElementById('h2').textContent = t.h2;
-      document.getElementById('p2').textContent = t.p2;
-      document.getElementById('h3').textContent = t.h3;
-      document.getElementById('p3').textContent = t.p3;
-      document.getElementById('h4').textContent = t.h4;
-      document.getElementById('p4').innerHTML = t.p4;
+      const c = T[lang] || T.de;
+      document.getElementById('brand').textContent = c.brand;
+      document.getElementById('h1').textContent = c.h1;
+      document.getElementById('p1').textContent = c.p1;
+      document.getElementById('h2').textContent = c.h2;
+      document.getElementById('l1').textContent = c.l1;
+      document.getElementById('l2').textContent = c.l2;
+      document.getElementById('l3').textContent = c.l3;
+      document.getElementById('h3').textContent = c.h3;
+      document.getElementById('p3').textContent = c.p3;
+      document.getElementById('h4').textContent = c.h4;
+      document.getElementById('p4').innerHTML = c.p4;
+      document.getElementById('h5').textContent = c.h5;
+      document.getElementById('p5').textContent = c.p5;
       document.documentElement.lang = (lang === 'en' ? 'en' : 'de');
     }
+
+    // ------- Zufällige Start-Offsets (mehr Chaos) -------
+    function randomOffset(min, max){ return Math.round(min + Math.random()*(max-min)); }
+    function applyRandomOffsets(){
+      document.querySelectorAll('.sticker').forEach(el=>{
+        // kleine zufällige Translation, zusätzlich zur leichten Rotation aus CSS
+        const dx = randomOffset(-14, 14);
+        const dy = randomOffset(-10, 16);
+        el.dataset.dx = dx; el.dataset.dy = dy;
+        // vorhandene Rotation beibehalten:
+        const current = getComputedStyle(el).transform;
+        // wenn keine Matrix (none), setzen wir nur translate
+        if (current === 'none'){
+          el.style.transform = `translate(${dx}px, ${dy}px)`;
+        } else {
+          el.style.transform = `${current} translate(${dx}px, ${dy}px)`;
+        }
+      });
+    }
+
+    // ------- Drag & Drop (transform-basiert, Maus & Touch/Pointer) -------
+    let drag = null;
+    function pointerDown(e){
+      const target = e.currentTarget;
+      drag = {
+        el: target,
+        startX: e.clientX, startY: e.clientY,
+        dx: parseFloat(target.dataset.dx || 0),
+        dy: parseFloat(target.dataset.dy || 0),
+        baseTransform: getComputedStyle(target).transform === 'none' ? '' : getComputedStyle(target).transform
+      };
+      target.style.zIndex = 999;
+      target.setPointerCapture(e.pointerId);
+      e.preventDefault();
+    }
+    function pointerMove(e){
+      if(!drag) return;
+      const nx = drag.dx + (e.clientX - drag.startX);
+      const ny = drag.dy + (e.clientY - drag.startY);
+      drag.el.dataset.dx = nx; drag.el.dataset.dy = ny;
+      // Kombiniere mit vorhandener Rotation/Skew via matrix
+      const base = drag.baseTransform && drag.baseTransform !== 'none' ? drag.baseTransform + ' ' : '';
+      drag.el.style.transform = `${base} translate(${nx}px, ${ny}px)`;
+    }
+    function pointerUp(e){
+      if(!drag) return;
+      drag.el.style.zIndex = '';
+      drag.el.releasePointerCapture(e.pointerId);
+      drag = null;
+    }
+    function makeDraggable(){
+      document.querySelectorAll('.draggable').forEach(el=>{
+        el.style.touchAction = 'none';
+        el.addEventListener('pointerdown', pointerDown);
+        el.addEventListener('pointermove', pointerMove);
+        el.addEventListener('pointerup', pointerUp);
+        el.addEventListener('pointercancel', pointerUp);
+        el.addEventListener('lostpointercapture', pointerUp);
+      });
+    }
+
+    // ------- Reset-Button: neue Offsets würfeln -------
+    document.getElementById('resetBtn').addEventListener('click', ()=>{
+      document.querySelectorAll('.sticker').forEach(el=>{
+        el.style.transform = ''; el.dataset.dx = 0; el.dataset.dy = 0;
+      });
+      applyRandomOffsets();
+    });
+
+    // ------- Init -------
     (function init(){
-      const saved = localStorage.getItem('lang') || 'de';
-      setLang(saved);
+      setLang(localStorage.getItem('lang') || 'de');
+      applyRandomOffsets();
+      makeDraggable();
     })();
   </script>
 </body>
