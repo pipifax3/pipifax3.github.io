@@ -1,500 +1,581 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="utf-8" />
-  <title>Stickerboard — Skizzen, Blog & Galerie</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Für Amelie (Amselie) — Board · Blog · Galerie</title>
 
-  <!-- Handschrift-/Marker-Fonts: alle unterschiedlich nutzbar -->
-  <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Gloria+Hallelujah&family=Shadows+Into+Light&family=Caveat:wght@700&family=Architects+Daughter&family=Handlee&family=Amatic+SC:wght@700&family=Indie+Flower&display=swap" rel="stylesheet">
+<!-- Handschrift-/Marker-Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Gloria+Hallelujah&family=Shadows+Into+Light&family=Caveat:wght@700&family=Architects+Daughter&family=Handlee&family=Amatic+SC:wght@700&family=Indie+Flower&display=swap" rel="stylesheet">
 
-  <style>
-    :root{
-      --paper:#fff9ef; --ink:#111;
-      --border:rgba(0,0,0,.25); --shadow:rgba(0,0,0,.08);
-      --pin:#e74c3c; --pin-dark:#b3392c;
-      --s1:#fff3b0; --s2:#baffc9; --s3:#bae1ff; --s4:#ffd6e0; --s5:#f7f7f7;
-      --s6:#ffeaa7; --s7:#caffbf; --s8:#fdffb6; --s9:#ffd6a5; --s10:#e0fbfc;
-      --nav:rgba(255,255,255,.7);
-      --active:#111;
-    }
-    html,body{margin:0;padding:0}
-    body{
-      background: var(--paper); color: var(--ink);
-      font-family: "Gloria Hallelujah","Shadows Into Light","Caveat","Architects Daughter","Permanent Marker","Handlee","Amatic SC","Indie Flower",cursive,system-ui;
-      line-height:1.25;
-    }
+<style>
+:root{
+  --paper:#fff9ef; --ink:#111;
+  --border:rgba(0,0,0,.25); --shadow:rgba(0,0,0,.08);
+  --pin:#e74c3c; --pin-dark:#b3392c;
+  --s1:#fff3b0; --s2:#baffc9; --s3:#bae1ff; --s4:#ffd6e0; --s5:#f7f7f7;
+  --s6:#ffeaa7; --s7:#caffbf; --s8:#fdffb6; --s9:#ffd6a5; --s10:#e0fbfc;
+  --nav:rgba(255,255,255,.75); --active:#111;
+}
+html,body{margin:0;padding:0}
+body{
+  background:var(--paper); color:var(--ink);
+  font-family:"Gloria Hallelujah","Shadows Into Light","Caveat","Architects Daughter","Permanent Marker","Handlee","Amatic SC","Indie Flower",cursive,system-ui;
+  line-height:1.25;
+}
+/* Leopard-Papier */
+body::before{
+  content:""; position:fixed; inset:0; z-index:-3; pointer-events:none;
+  background-image:url("data:image/svg+xml;utf8,\
+  <svg xmlns='http://www.w3.org/2000/svg' width='500' height='500' viewBox='0 0 500 500'>\
+    <defs><filter id='grain'><feTurbulence type='fractalNoise' baseFrequency='0.012' numOctaves='3'/><feColorMatrix type='saturate' values='0'/><feComponentTransfer><feFuncA type='table' tableValues='0 0.15'/></feComponentTransfer></filter></defs>\
+    <rect width='100%' height='100%' fill='%23fff9ef'/>\
+    <rect width='100%' height='100%' filter='url(%23grain)' opacity='0.6'/>\
+  </svg>");
+  background-size:700px 700px;
+}
+body::after{
+  content:""; position:fixed; inset:0; z-index:-2; pointer-events:none; opacity:.32;
+  background-image:url("data:image/svg+xml;utf8,\
+  <svg xmlns='http://www.w3.org/2000/svg' width='320' height='320' viewBox='0 0 320 320'>\
+    <defs><radialGradient id='c' cx='50%' cy='50%' r='50%'><stop offset='0%' stop-color='%23110d09'/><stop offset='100%' stop-color='%23000000'/></radialGradient></defs>\
+    <rect width='100%' height='100%' fill='transparent'/>\
+    <g opacity='0.9' fill='url(%23c)'>\
+      <ellipse cx='40' cy='50' rx='28' ry='20'/><ellipse cx='95' cy='90' rx='16' ry='12'/>\
+      <ellipse cx='150' cy='45' rx='22' ry='16'/><ellipse cx='210' cy='85' rx='30' ry='22'/>\
+      <ellipse cx='270' cy='40' rx='18' ry='12'/><ellipse cx='60' cy='170' rx='26' ry='18'/>\
+      <ellipse cx='120' cy='200' rx='20' ry='14'/><ellipse cx='190' cy='170' rx='28' ry='20'/>\
+      <ellipse cx='250' cy='210' rx='22' ry='16'/><ellipse cx='300' cy='170' rx='16' ry='12'/>\
+      <ellipse cx='40' cy='280' rx='18' ry='12'/><ellipse cx='100' cy='260' rx='24' ry='18'/>\
+      <ellipse cx='160' cy='300' rx='20' ry='14'/><ellipse cx='220' cy='260' rx='26' ry='18'/>\
+      <ellipse cx='290' cy='290' rx='16' ry='12'/>\
+    </g></svg>");
+  background-size:360px 360px;
+}
 
-    /* ===== Leopardenmuster auf Papier =====
-       Layer 1: papier-„faser“
-       Layer 2: Flecken (Leopard-Spots)
-    */
-    body::before{
-      content:""; position:fixed; inset:0; z-index:-3; pointer-events:none;
-      background-image:
-        url("data:image/svg+xml;utf8,\
-          <svg xmlns='http://www.w3.org/2000/svg' width='500' height='500' viewBox='0 0 500 500'>\
-            <defs>\
-              <filter id='grain'><feTurbulence type='fractalNoise' baseFrequency='0.012' numOctaves='3'/><feColorMatrix type='saturate' values='0'/><feComponentTransfer><feFuncA type='table' tableValues='0 0.15'/></feComponentTransfer></filter>\
-            </defs>\
-            <rect width='100%' height='100%' fill='%23fff9ef'/>\
-            <rect width='100%' height='100%' filter='url(%23grain)' opacity='0.6'/>\
-          </svg>");
-      background-size: 700px 700px;
-    }
-    /* Flecken: SVG mit zufälligen organischen Formen (tilebar) */
-    body::after{
-      content:""; position:fixed; inset:0; z-index:-2; pointer-events:none; opacity:.28;
-      background-image:
-        url("data:image/svg+xml;utf8,\
-          <svg xmlns='http://www.w3.org/2000/svg' width='320' height='320' viewBox='0 0 320 320'>\
-            <defs>\
-              <radialGradient id='c' cx='50%' cy='50%' r='50%'>\
-                <stop offset='0%' stop-color='%23110d09'/><stop offset='100%' stop-color='%23000000'/>\
-              </radialGradient>\
-            </defs>\
-            <rect width='100%' height='100%' fill='transparent'/>\
-            <g opacity='0.9' fill='url(%23c)'>\
-              <ellipse cx='40'  cy='50'  rx='28' ry='20'/>\
-              <ellipse cx='95'  cy='90'  rx='16' ry='12'/>\
-              <ellipse cx='150' cy='45'  rx='22' ry='16'/>\
-              <ellipse cx='210' cy='85'  rx='30' ry='22'/>\
-              <ellipse cx='270' cy='40'  rx='18' ry='12'/>\
-              <ellipse cx='60'  cy='170' rx='26' ry='18'/>\
-              <ellipse cx='120' cy='200' rx='20' ry='14'/>\
-              <ellipse cx='190' cy='170' rx='28' ry='20'/>\
-              <ellipse cx='250' cy='210' rx='22' ry='16'/>\
-              <ellipse cx='300' cy='170' rx='16' ry='12'/>\
-              <ellipse cx='40'  cy='280' rx='18' ry='12'/>\
-              <ellipse cx='100' cy='260' rx='24' ry='18'/>\
-              <ellipse cx='160' cy='300' rx='20' ry='14'/>\
-              <ellipse cx='220' cy='260' rx='26' ry='18'/>\
-              <ellipse cx='290' cy='290' rx='16' ry='12'/>\
-            </g>\
-          </svg>");
-      background-size: 360px 360px;
-    }
+/* Header + Tabs + Sprache */
+header{
+  position:sticky; top:0; z-index:20; display:flex; gap:10px; align-items:center; justify-content:space-between;
+  padding:14px 14px 10px; background:linear-gradient(var(--paper) 75%, rgba(255,255,255,0));
+  border-bottom:1px dashed rgba(0,0,0,.18);
+}
+.brand{ margin:0; font-size:clamp(22px,4.5vw,40px); font-family:"Permanent Marker",cursive; transform:rotate(-1.2deg);
+  text-decoration:underline wavy rgba(0,0,0,.35); text-underline-offset:6px; }
+.controls{ display:flex; gap:8px; align-items:center }
+.btn{ border:1px dashed rgba(0,0,0,.25); background:var(--nav); color:var(--ink); padding:6px 10px; border-radius:7px; cursor:pointer; font:inherit;
+  box-shadow:2px 2px 0 var(--shadow); transform:rotate(.6deg);}
+.btn:hover{ transform:rotate(.6deg) translateY(-1px) }
+.tab{ opacity:.7 } .tab.active{ opacity:1; background:#fff; color:var(--active) }
 
-    /* ===== Header & Nav ===== */
-    header{
-      position:sticky; top:0; z-index:20;
-      display:flex; align-items:center; justify-content:space-between;
-      gap:10px; padding:14px 14px 10px;
-      background: linear-gradient(var(--paper) 75%, rgba(255,255,255,0));
-      border-bottom:1px dashed rgba(0,0,0,.18);
-      backdrop-filter: blur(2px);
-    }
-    .brand{
-      margin:0; font-size: clamp(22px, 4.5vw, 40px);
-      font-family:"Permanent Marker", cursive;
-      transform: rotate(-1.2deg);
-      text-decoration: underline wavy rgba(0,0,0,.35);
-      text-underline-offset: 6px;
-    }
-    .controls{ display:flex; gap:8px; align-items:center }
-    .btn{
-      border:1px dashed rgba(0,0,0,.25); background:var(--nav); color:var(--ink);
-      padding:6px 10px; border-radius:7px; cursor:pointer; font:inherit;
-      box-shadow:2px 2px 0 var(--shadow); transform:rotate(.6deg);
-    }
-    .btn:hover{ transform:rotate(.6deg) translateY(-1px) }
-    .tab{ opacity:.7 }
-    .tab.active{ opacity:1; background:#fff; color:var(--active); }
+main{ padding: 20px 12px 70px }
+.layer{ display:none } .layer.active{ display:block }
+.max{ max-width:1200px; margin:0 auto }
 
-    main{ padding: 20px 12px 70px }
-    .layer{ display:none }
-    .layer.active{ display:block }
+/* Board-Grid */
+.grid{ display:grid; gap:16px 14px; grid-template-columns:repeat(12,1fr) }
+.span-4{grid-column:span 4}.span-5{grid-column:span 5}.span-6{grid-column:span 6}.span-7{grid-column:span 7}
+.left{justify-self:start}.right{justify-self:end}
+.sticker{ position:relative; padding:14px 16px; border:2px solid var(--border); box-shadow:4px 4px 0 var(--shadow);
+  background:var(--s5); }
+.s1{background:var(--s1)} .s2{background:var(--s2)} .s3{background:var(--s3)} .s4{background:var(--s4)}
+.s6{background:var(--s6)} .s7{background:var(--s7)} .s8{background:var(--s8)} .s9{background:var(--s9)} .s10{background:var(--s10)}
+.tilt-a{ transform:rotate(-2deg) } .tilt-b{ transform:rotate(1.6deg) } .tilt-c{ transform:rotate(-0.9deg) } .tilt-d{ transform:rotate(2.2deg) }
+.pin::after{ content:""; position:absolute; width:14px; height:14px; right:16px; top:10px;
+  background:radial-gradient(circle at 35% 35%, #fff 0 30%, var(--pin) 31% 100%);
+  border:1px solid var(--pin-dark); border-radius:50%; box-shadow:1px 1px 0 rgba(0,0,0,.25); }
+.tape::before{ content:""; position:absolute; left:14px; top:-14px; width:94px; height:26px; opacity:.95;
+  background-image:url('data:image/svg+xml;utf8,\
+    <svg xmlns="http://www.w3.org/2000/svg" width="188" height="52" viewBox="0 0 188 52">\
+      <defs><filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2"/></filter>\
+      <linearGradient id="g" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#f2e6a8"/><stop offset="1" stop-color="#eadf9a"/></linearGradient></defs>\
+      <rect x="2" y="2" width="184" height="48" rx="4" fill="url(#g)" filter="url(%23grain)" opacity="0.95"/>\
+      <path d="M6 6 L182 6 M6 46 L182 46" stroke="#b5ab7a" stroke-width="1" opacity="0.35"/>\
+      <path d="M0 10 L188 8" stroke="#c9be8c" stroke-width="2" opacity="0.25"/>\
+    </svg>'); background-size:cover; transform:rotate(-7deg); box-shadow:1px 2px 0 rgba(0,0,0,.2); }
+.dogear::after{ content:""; position:absolute; right:0; top:0; width:0; height:0; border-left:18px solid transparent; border-bottom:18px solid rgba(0,0,0,.18) }
 
-    .board, .blog, .gallery{
-      max-width:1200px; margin:0 auto;
-    }
+/* Fonts – jeder Header anders */
+.h1{ font-family:"Amatic SC",cursive }
+.h2{ font-family:"Permanent Marker",cursive }
+.h3{ font-family:"Gloria Hallelujah",cursive }
+.h4{ font-family:"Caveat",cursive }
+.h5{ font-family:"Architects Daughter",cursive }
+.h6{ font-family:"Handlee",cursive }
+.h7{ font-family:"Shadows Into Light",cursive }
+.h8{ font-family:"Indie Flower",cursive }
 
-    /* ===== Stickerboard (Layer 1) ===== */
-    .grid{
-      display:grid; gap:16px 14px; grid-template-columns:repeat(12,1fr);
-      position:relative;
-    }
-    .span-4{ grid-column:span 4 } .span-5{ grid-column:span 5 }
-    .span-6{ grid-column:span 6 } .span-7{ grid-column:span 7 }
-    .left{ justify-self:start } .right{ justify-self:end }
+.small{ font-size:clamp(14px,2vw,16px) }
+.mid{ font-size:clamp(16px,2.4vw,18px) }
+.big{ font-size:clamp(20px,3.2vw,28px) }
+.xl { font-size:clamp(26px,6vw,44px) }
 
-    .sticker{
-      position:relative; padding:14px 16px;
-      border:2px solid var(--border); box-shadow:4px 4px 0 var(--shadow);
-      background:var(--s5); cursor:grab; touch-action:none; user-select:none; will-change: transform;
-    }
-    .sticker:active{ cursor:grabbing }
-    .s1{background:var(--s1)} .s2{background:var(--s2)} .s3{background:var(--s3)}
-    .s4{background:var(--s4)} .s6{background:var(--s6)} .s7{background:var(--s7)}
-    .s8{background:var(--s8)} .s9{background:var(--s9)} .s10{background:var(--s10)}
-    .tilt-a{ transform:rotate(-2deg) } .tilt-b{ transform:rotate(1.6deg) }
-    .tilt-c{ transform:rotate(-0.9deg) } .tilt-d{ transform:rotate(2.2deg) }
+/* Blog */
+.blog{ display:grid; gap:18px; grid-template-columns:repeat(12,1fr) }
+.post{ grid-column:span 6; background:var(--s10); border:2px solid var(--border); box-shadow:4px 4px 0 var(--shadow); padding:16px; position:relative }
+.post .title{ margin:0 0 8px 0 }
+.post .meta{ font-family:"Handlee",cursive; opacity:.8; margin:0 0 10px 0 }
+.post .excerpt{ margin:0 }
+.post.tilt-a{ transform: rotate(-1.2deg) } .post.tilt-b{ transform: rotate(1deg) }
+@media (max-width:980px){ .post{ grid-column:span 12 } }
 
-    .pin::after{
-      content:""; position:absolute; width:14px; height:14px; right:16px; top:10px;
-      background:radial-gradient(circle at 35% 35%, #fff 0 30%, var(--pin) 31% 100%);
-      border:1px solid var(--pin-dark); border-radius:50%;
-      box-shadow:1px 1px 0 rgba(0,0,0,.25);
-    }
-    .tape::before{
-      content:""; position:absolute; left:14px; top:-14px; width:94px; height:26px; opacity:.95;
-      background-image:url('data:image/svg+xml;utf8,\
-        <svg xmlns="http://www.w3.org/2000/svg" width="188" height="52" viewBox="0 0 188 52">\
-          <defs><filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2"/><feColorMatrix type="saturate" values="0.2"/></filter>\
-          <linearGradient id="g" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#f2e6a8"/><stop offset="1" stop-color="#eadf9a"/></linearGradient></defs>\
-          <rect x="2" y="2" width="184" height="48" rx="4" fill="url(#g)" filter="url(%23grain)" opacity="0.95"/>\
-          <path d="M6 6 L182 6 M6 46 L182 46" stroke="#b5ab7a" stroke-width="1" opacity="0.35"/>\
-          <path d="M0 10 L188 8" stroke="#c9be8c" stroke-width="2" opacity="0.25"/>\
-        </svg>');
-      background-size:cover; background-repeat:no-repeat;
-      transform:rotate(-7deg);
-      box-shadow:1px 2px 0 rgba(0,0,0,.2);
-    }
-    .dogear::after{
-      content:""; position:absolute; right:0; top:0; width:0; height:0;
-      border-left:18px solid transparent; border-bottom:18px solid rgba(0,0,0,.18);
-    }
+/* Galerie */
+.gallery-grid{ display:grid; gap:12px; grid-template-columns:repeat(12,1fr) }
+.cell{ grid-column:span 3; position:relative; background:#fff; border:2px solid #111; box-shadow:3px 3px 0 var(--shadow) }
+.cell::after{content:""; display:block; padding-bottom:75%}
+.cell .inner{ position:absolute; inset:0; background-size:cover; background-position:center }
+.caption{ padding:8px; font-family:"Architects Daughter",cursive; border-top:1px dashed rgba(0,0,0,.18) }
+@media (max-width:1024px){ .cell{ grid-column:span 4 } }
+@media (max-width:640px){ .cell{ grid-column:span 6 } }
 
-    /* Fonts (je Header ein anderer Stil, keine Doppelungen) */
-    .h-font-1{ font-family:"Permanent Marker",cursive }
-    .h-font-2{ font-family:"Gloria Hallelujah",cursive }
-    .h-font-3{ font-family:"Shadows Into Light",cursive }
-    .h-font-4{ font-family:"Caveat",cursive }
-    .h-font-5{ font-family:"Architects Daughter",cursive }
-    .h-font-6{ font-family:"Handlee",cursive }
-    .h-font-7{ font-family:"Amatic SC",cursive }
-    .h-font-8{ font-family:"Indie Flower",cursive }
-
-    .small{ font-size:clamp(14px,2vw,16px) }
-    .mid{ font-size:clamp(16px,2.4vw,18px) }
-    .big{ font-size:clamp(20px,3.2vw,28px) }
-    .xl { font-size:clamp(24px,5vw,40px) }
-
-    .ph{ display:block; width:100%; aspect-ratio:4/3; background:#fff; border:2px solid #111; box-shadow:4px 4px 0 var(--shadow) }
-    .ph--x{ background-image:url("data:image/svg+xml;utf8,\
-      <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600'>\
-        <rect width='100%' height='100%' fill='%23ffffff'/>\
-        <path d='M30 560 L770 40' stroke='%23000' stroke-width='6' stroke-dasharray='12 10'/>\
-        <path d='M30 40 L770 560' stroke='%23000' stroke-width='6' stroke-dasharray='10 12'/>\
-        <text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-size='48' font-family='Courier New' fill='%23000'>PLATZHALTER</text>\
-      </svg>"); background-size:cover; background-position:center; }
-    .ph--rings{ background-image:url("data:image/svg+xml;utf8,\
-      <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600'>\
-        <rect width='100%' height='100%' fill='%23ffffff'/>\
-        <circle cx='200' cy='300' r='130' fill='none' stroke='%23000' stroke-width='5' stroke-dasharray='5 9'/>\
-        <circle cx='600' cy='300' r='110' fill='none' stroke='%23000' stroke-width='5' stroke-dasharray='9 7'/>\
-        <text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-size='48' font-family='Courier New' fill='%23000'>PLATZHALTER</text>\
-      </svg>"); background-size:cover; background-position:center; }
-
-    /* ===== Blog (Layer 2) ===== */
-    .blog{
-      display:grid; gap:18px; grid-template-columns:repeat(12,1fr);
-    }
-    .post{
-      grid-column: span 6;
-      background: var(--s10);
-      border:2px solid var(--border); box-shadow:4px 4px 0 var(--shadow);
-      padding:16px; position:relative;
-    }
-    .post .title{ margin:0 0 8px 0 }
-    .post .meta{ font-family:"Handlee",cursive; opacity:.8; margin: 0 0 10px 0 }
-    .post .excerpt{ margin:0 }
-    .post.tilt-a{ transform: rotate(-1.2deg) } .post.tilt-b{ transform: rotate(1deg) }
-    @media (max-width:980px){ .post{ grid-column: span 12 } }
-
-    /* ===== Galerie (Layer 3) ===== */
-    .gallery-grid{
-      display:grid; gap:12px; grid-template-columns:repeat(12,1fr);
-    }
-    .cell{ grid-column: span 3; position:relative; background:#fff; border:2px solid #111; box-shadow:3px 3px 0 var(--shadow) }
-    .cell::after{content:""; display:block; padding-bottom:75%}
-    .cell .inner{
-      position:absolute; inset:0; background-size:cover; background-position:center;
-    }
-    @media (max-width:1024px){ .cell{ grid-column: span 4 } }
-    @media (max-width:640px){ .cell{ grid-column: span 6 } }
-
-    /* Placeholder-Kachelmotive (abwechselnd) */
-    .motif-a{ background-image:url("data:image/svg+xml;utf8,\
-      <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600'>\
-        <rect width='100%' height='100%' fill='%23ffffff'/>\
-        <rect x='60' y='60' width='680' height='480' fill='none' stroke='%23000' stroke-width='6'/>\
-        <path d='M60 480 L740 180' stroke='%23000' stroke-width='6' stroke-dasharray='10 12'/>\
-      </svg>"); }
-    .motif-b{ background-image:url("data:image/svg+xml;utf8,\
-      <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600'>\
-        <rect width='100%' height='100%' fill='%23ffffff'/>\
-        <circle cx='400' cy='300' r='180' fill='none' stroke='%23000' stroke-width='6' stroke-dasharray='8 10'/>\
-      </svg>"); }
-    .motif-c{ background-image:url("data:image/svg+xml;utf8,\
-      <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600'>\
-        <rect width='100%' height='100%' fill='%23ffffff'/>\
-        <polyline points='60,520 140,420 220,520 300,420 380,520 460,420 540,520 620,420 700,520'\
-          fill='none' stroke='%23000' stroke-width='6' stroke-dasharray='6 10'/>\
-      </svg>"); }
-
-    /* Responsive Basics */
-    @media (max-width:980px){
-      .span-7,.span-6{ grid-column:span 12 }
-    }
-    @media (max-width:640px){
-      .span-5,.span-4{ grid-column:span 12 }
-    }
-  </style>
+/* ASCII-Fläche (Klappstuhl) */
+pre.ascii-chair{
+  font-family: monospace; line-height:1; white-space:pre;
+  background:#111; color:#0f0; padding:10px; overflow:auto; border:1px dashed #0f0;
+}
+</style>
 </head>
 <body>
-  <header>
-    <h1 class="brand" id="brand">Stickerboard — Skizzen, Blog & Galerie</h1>
-    <div class="controls">
-      <button class="btn tab active" data-layer="board" id="tab-board">Board</button>
-      <button class="btn tab" data-layer="blog" id="tab-blog">Blog</button>
-      <button class="btn tab" data-layer="gallery" id="tab-gallery">Galerie</button>
-      <button class="btn" onclick="setLang('de')">DE</button>
-      <button class="btn" onclick="setLang('en')">EN</button>
-      <button class="btn" id="resetBtn" title="Sticker-Offsets neu würfeln">Reset</button>
-    </div>
-  </header>
+<header>
+  <h1 class="brand" id="brand">Für Amelie (Amselie) — Board · Blog · Galerie</h1>
+  <div class="controls">
+    <button class="btn tab active" data-layer="board" id="tab-board">Board</button>
+    <button class="btn tab" data-layer="blog" id="tab-blog">Blog</button>
+    <button class="btn tab" data-layer="gallery" id="tab-gallery">Galerie</button>
+    <button class="btn" onclick="setLang('de')">DE</button>
+    <button class="btn" onclick="setLang('en')">EN</button>
+  </div>
+</header>
 
-  <main>
-    <!-- ===== LAYER 1: Stickerboard ===== -->
-    <section class="layer active" id="layer-board" aria-label="Stickerboard">
+<main>
+  <!-- LAYER 1: BOARD -->
+  <section class="layer active" id="layer-board">
+    <div class="max">
       <div class="grid">
+        <!-- Widmung -->
         <div class="span-7 left">
-          <article class="sticker s8 tape tilt-a draggable" data-id="s-1">
-            <h2 id="h1" class="h-font-7 xl">Projekt-Schnipsel</h2>
-            <p id="p1" class="h-font-5 mid">Lose Gedanken zu LiDAR, Robotik und AV-Visuals — auf Papier geklebt.</p>
+          <article class="sticker s8 tape tilt-a">
+            <h2 class="h1 xl" id="t-ded">Für Amelie – auch bekannt als Amselie</h2>
+            <p class="h5 mid" id="p-ded">
+              Diese Seite ist eine Liebeserklärung an deine Kunst, deinen Witz und deinen Eigensinn.
+              Nichts ist ordentlich, alles ist echt.
+            </p>
           </article>
         </div>
 
+        <!-- Beschreibung -->
         <div class="span-5 right">
-          <figure class="sticker s2 pin tilt-b draggable" data-id="s-2">
-            <div class="ph ph--x" role="img" aria-label="Platzhalterbild 1"></div>
-            <figcaption class="small h-font-4" style="opacity:.7">#01 — Rohentwurf</figcaption>
-          </figure>
+          <article class="sticker s6 pin tilt-b">
+            <h3 class="h2 big" id="t-about">Über Amelie</h3>
+            <p class="h6 mid" id="p-about">
+              Amelie (Amselie) ist ein Wirbel aus Farbe, Kopfkino und Rebellion.
+              Sie malt toll, drückt sich in der Kunst aus und macht ihr eigenes Ding – kompromisslos freundlich.
+            </p>
+            <p class="h7 small" id="p-about2">
+              Zwischen Skizzen und Ideen lässt sie Platz für Zufall: das ist ihr Motor.
+            </p>
+          </article>
         </div>
 
-        <div class="span-4 left">
-          <article class="sticker s1 dogear tilt-c draggable" data-id="s-3">
-            <h3 id="h2" class="h-font-1 big">Punktwolken</h3>
-            <ul class="small h-font-6" style="list-style:'— '; padding-left:1ch; margin:0">
-              <li id="l1">Voxel, Labeling, Vollständigkeit</li>
-              <li id="l2">Qualitätsmetriken & Drift</li>
-              <li id="l3">.LAS / .PLY / .NPY</li>
+        <!-- Zitate 1:1 -->
+        <div class="span-7 left">
+          <article class="sticker s9 dogear tilt-d">
+            <h3 class="h3 big" id="t-quotes">Freunde über Amselie</h3>
+            <ul class="small h7" style="list-style:'— '; padding-left:1ch; margin:0">
+              <li>Amelie malt toll</li>
+              <li>Sie drückt sich gern in der Kunst aus und ist rebellisch</li>
+              <li>Amseli ist die beste amseli der welt</li>
+              <li>Wenn amelie ein Tier wäre wäre sie ein affe</li>
+              <li>Amselie übertrifft jeden in Kreativität</li>
+              <li>Sie macht immer ihr eigenes ding.</li>
+              <li>Amselie gammelt wie ne echte gammelie</li>
+              <li>Amselie die Amsel</li>
+              <li>Spikey, Cunty, Amely</li>
+              <li>Eat Sleep Amelie Repeat</li>
+              <li>Lebensfrohe oboe</li>
+              <li>Der schönste Rubyn im Schmuckkasterl</li>
+              <li>Amselie ist ein lufttier</li>
+              <li>Mein Kopf ist leer denk denk denken kann ich nicht mehr</li>
+              <li>Amelie Emma Roberta Antonia Brauer!</li>
+              <li>Amelie hat fast Jawline</li>
+              <li>Amelie Schwammelie</li>
+              <li>Amelie is einfach da Wahn!</li>
             </ul>
           </article>
         </div>
 
-        <div class="span-7 right">
-          <figure class="sticker s4 tape tilt-d draggable" data-id="s-4">
-            <div class="ph ph--rings" role="img" aria-label="Platzhalterbild 2"></div>
-            <figcaption class="small h-font-2" style="opacity:.7">#02 — Frequenzräume</figcaption>
-          </figure>
-        </div>
-
-        <div class="span-5 left">
-          <article class="sticker s6 pin tilt-a draggable" data-id="s-5">
-            <h3 id="h3" class="h-font-8 big">AV-Ästhetik</h3>
-            <p id="p3" class="h-font-3 mid">Reduktion, Wiederholung, minimale Frequenzräume, wackelige Linien.</p>
+        <!-- Manifest / Leitmotiv -->
+        <div class="span-5 right">
+          <article class="sticker s1 tape tilt-c">
+            <h3 class="h4 big" id="t-manifest">Mini-Manifest</h3>
+            <p class="h6 mid" id="p-manifest1">Kritzeln vor Perfekt. Risiko vor Regel. Gefühl vor Glanz.</p>
+            <p class="h8 small" id="p-manifest2">Was bleibt: eine Spur — leopardig, laut, liebevoll.</p>
           </article>
         </div>
 
+        <!-- ASCII-Klappstuhl (ersetzt vorherige Version) -->
+        <div class="span-6 left">
+          <article class="sticker s3 pin tilt-b">
+            <h3 class="h5 big" id="t-chair">TXT – Klappstuhl</h3>
+            <pre class="ascii-chair">........................................
+........................................
+....__..............................___.
+....||............................._/...
+....||............................_/....
+....||_..................._____../......
+...../.................._________/......
+.....|.................._________|......
+.....|.................___________|......
+.....|.................___________|......
+.....|_................__________|......
+......|................__________|......
+......|................__________|......
+......|................__________|......
+......|................__________|......
+......|_...............__________|......
+.......|...............__________|......
+.......|...............__________|......
+.......|...............__________|......
+.......|...............__________|......
+.......|_..............__________|......
+........|..............__________|......
+........|..............__________|......
+........|..............__________|......
+........|..............__________|......
+........|_.............__________|......
+.........|.............__________|......
+.........|.............__________|......
+.........|.............__________|......
+.........|.............__________|......
+.........|_............__________|......
+..........|............__________|......
+..........|............__________|......
+..........|............__________|......
+..........|............__________|......
+..........|_...........__________|......
+...........|...........__________|......
+...........|...........__________|......
+...........|...........__________|......
+...........|...........__________|......
+...........|_..........__________|......
+............|..........__________|......
+............|..........__________|......
+............|..........__________|......
+............|..........__________|......
+............|_.........__________|......
+.............|.........__________|......
+.............|.........__________|......
+.............|.........__________|......
+.............|.........__________|......
+.............|_........__________|......
+..............|........__________|......
+..............|........__________|......
+..............|........__________|......
+..............|........__________|......
+..............|_.......__________|......
+...............|.......__________|......
+...............|.......__________|......
+...............|.......__________|......
+...............|.......__________|......
+...............|_......__________|......
+................|......__________|......
+................|......__________|......
+................|......__________|......
+................|......__________|......
+................|_.....__________|......
+.................|.....__________|......
+.................|.....__________|......
+.................|.....__________|......
+.................|.....__________|......
+.................|_....__________|......
+..................|....__________|......
+..................|....__________|......
+..................|....__________|......
+..................|....__________|......
+..................|_...__________|......
+...................|...__________|......
+...................|...__________|......
+...................|...__________|......
+...................|...__________|......
+...................|_..__________|......
+....................|..__________|......
+....................|..__________|......
+....................|..__________|......
+....................|..__________|......
+....................|_.__________|......
+.....................|_._-------_|......
+......................|...........|.....
+......................|...........|.....
+......................|...........|.....
+......................|...........|.....
+......................|...........|.....
+......................|...........|.....
+......................|...........|.....
+......................|...........|.....
+......................|...........|.....
+......................|...........|.....
+......................|___________|.....
+......................|___________|.....
+......................|___________|.....
+......................|___________|.....
+......................|___________|.....
+......................|___________|.....
+......................|___________|.....
+......................|___________|.....
+......................|___________|.....
+......................|___________|.....
+......................|___________|.....
+......................|___________|.....
+......................|___________|.....
+......................|___________|......
+......................|___________|......
+......................|___________|......
+......................|___________|......
+......................|___________|......
+......................|___________|......
+......................|___________|......
+......................|___________|......
+......................|___________|......
+......................|___________|......
+......................|___________|......
+......................|___________|......
+......................|___________|......
+......................|___________|......
+......................|___________|......
+......................|___________|......
+......................|___________|......
+......................|___________|......
+......................|___________|......
+......................|___________|......
+......................|___________|......
+......................|___________|......
+</pre>
+          </article>
+        </div>
+
+        <!-- Zusatz-Textblock -->
         <div class="span-6 right">
-          <article class="sticker s9 dogear tilt-b draggable" data-id="s-6">
-            <h3 id="h4" class="h-font-4 big">Kontakt</h3>
-            <p id="p4" class="h-font-6 mid">Schick mir eine Mail: <a href="mailto:ga94wux@mytum.de">ga94wux@mytum.de</a></p>
-          </article>
-        </div>
-
-        <div class="span-4 left">
-          <article class="sticker s10 tape tilt-c draggable" data-id="s-7">
-            <h3 id="h5" class="h-font-2 big">Tools</h3>
-            <p id="p5" class="h-font-5 small">ROS/ROS2 • Open3D • PyTorch • GLSL • Three.js</p>
+          <article class="sticker s2 tape tilt-a">
+            <h3 class="h6 big" id="t-note">Randnotiz</h3>
+            <p class="h3 mid" id="p-note">
+              Amselie, du bist die Collage. Alles andere ist nur Klebestift.
+            </p>
           </article>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- ===== LAYER 2: Blog ===== -->
-    <section class="layer" id="layer-blog" aria-label="Blog">
-      <div class="blog">
-        <article class="post tilt-a">
-          <h2 class="title h-font-7">Messpfade & Drift</h2>
-          <p class="meta">12.05.2025 · LiDAR/SLAM</p>
-          <p class="excerpt h-font-3" id="b1">Gedanken zu Trajektorien-Glättung und Loop-Closures in industriellen Hallen.</p>
-        </article>
+  <!-- LAYER 2: BLOG -->
+  <section class="layer" id="layer-blog">
+    <div class="max blog">
+      <article class="post tilt-a">
+        <h2 class="title h1" id="b-t1">Skizzen: Farbe & Frechheit</h2>
+        <p class="meta" id="b-m1">12.06.2025 · Notiz</p>
+        <p class="excerpt h6" id="b-e1">
+          Warum Amelie mit drei Strichen Geschichten baut und mit einem Blick Mauern einreißt. Kunst als
+          Alltagsgerät – tragbar wie ein Klappstuhl.
+        </p>
+      </article>
 
-        <article class="post tilt-b">
-          <h2 class="title h-font-1">Voxel & Vollständigkeit</h2>
-          <p class="meta">02.04.2025 · Point Clouds</p>
-          <p class="excerpt h-font-5" id="b2">Warum Metriken für Lücken, Dichte und Sichtbarkeit der Schlüssel sind.</p>
-        </article>
+      <article class="post tilt-b">
+        <h2 class="title h2" id="b-t2">Amselie – Mini-Chronik</h2>
+        <p class="meta" id="b-m2">10.06.2025 · Freunde</p>
+        <p class="excerpt h5" id="b-e2">
+          Von Doodles zu Dialogen: wenn Rebellion zärtlich klingt und Linien Luft holen dürfen.
+        </p>
+      </article>
 
-        <article class="post tilt-b">
-          <h2 class="title h-font-8">AV-Notizen</h2>
-          <p class="meta">18.03.2025 · Visuals</p>
-          <p class="excerpt h-font-2" id="b3">Minimalistische Signale, Raster, Shader-Experimente für Live-Setups.</p>
-        </article>
+      <article class="post tilt-b">
+        <h2 class="title h4" id="b-t3">Werkzeugkiste</h2>
+        <p class="meta" id="b-m3">08.06.2025 · Setup</p>
+        <p class="excerpt h8" id="b-e3">
+          Marker, Tape, Zufall. Regeln? Nur zum Umbiegen. Jede Seite darf anders atmen.
+        </p>
+      </article>
 
-        <article class="post tilt-a">
-          <h2 class="title h-font-4">FactoryViewer Metriken</h2>
-          <p class="meta">10.02.2025 · Platform</p>
-          <p class="excerpt h-font-6" id="b4">Speicher, Flüsse, Nutzerrollen — was ein Viewer wirklich sichtbar machen sollte.</p>
-        </article>
+      <article class="post tilt-a">
+        <h2 class="title h5" id="b-t4">Leopardische Theorie</h2>
+        <p class="meta" id="b-m4">07.06.2025 · Musterkunde</p>
+        <p class="excerpt h7" id="b-e4">
+          Flecken sind keine Fehler; es sind Koordinaten, an denen Augen hängen bleiben.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <!-- LAYER 3: GALERIE -->
+  <section class="layer" id="layer-gallery">
+    <div class="max">
+      <div class="sticker s7 tape tilt-b" style="margin-bottom:16px">
+        <h3 class="h3 big" id="g-title">Galerie-Intro</h3>
+        <p class="h6 mid" id="g-lead">
+          Eine Wand aus Platzhaltern – damit Raum bleibt für echte Bilder, echte Nächte, echtes Lachen.
+          Jede Kachel ist eine Einladung, kein Rahmen.
+        </p>
       </div>
-    </section>
 
-    <!-- ===== LAYER 3: Galerie ===== -->
-    <section class="layer" id="layer-gallery" aria-label="Galerie">
       <div class="gallery-grid">
-        <div class="cell"><div class="inner motif-a"></div></div>
-        <div class="cell"><div class="inner motif-b"></div></div>
-        <div class="cell"><div class="inner motif-c"></div></div>
-        <div class="cell"><div class="inner motif-a"></div></div>
-        <div class="cell"><div class="inner motif-b"></div></div>
-        <div class="cell"><div class="inner motif-c"></div></div>
-        <div class="cell"><div class="inner motif-a"></div></div>
-        <div class="cell"><div class="inner motif-b"></div></div>
+        <div class="cell tilt-a">
+          <div class="inner" style="background:#fff url('data:image/svg+xml;utf8, \
+            <svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 600%22><rect width=%22800%22 height=%22600%22 fill=%23ffffff/> \
+            <rect x=%2260%22 y=%2260%22 width=%22680%22 height=%22480%22 fill=none stroke=%23000 stroke-width=%226%22/></svg>') center/cover no-repeat"></div>
+          <div class="caption h6" id="g-c1">Rahmen ohne Foto – wie ein Atemholen.</div>
+        </div>
+
+        <div class="cell tilt-c">
+          <div class="inner" style="background:#fff url('data:image/svg+xml;utf8, \
+            <svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 600%22><rect width=%22800%22 height=%22600%22 fill=%23ffffff/> \
+            <circle cx=%22400%22 cy=%22300%22 r=%22180%22 fill=none stroke=%23000 stroke-width=%226%22 stroke-dasharray=%228 10%22/></svg>') center/cover no-repeat"></div>
+          <div class="caption h6" id="g-c2">Kreis, weil Wege selten gerade sind.</div>
+        </div>
+
+        <div class="cell tilt-d">
+          <div class="inner" style="background:#fff url('data:image/svg+xml;utf8, \
+            <svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 600%22><rect width=%22800%22 height=%22600%22 fill=%23ffffff/> \
+            <polyline points=%2260,520 140,420 220,520 300,420 380,520 460,420 540,520 620,420 700,520%22 fill=none stroke=%23000 stroke-width=%226%22 stroke-dasharray=%226 10%22/></svg>') center/cover no-repeat"></div>
+          <div class="caption h6" id="g-c3">Zickzack: die Linie, die tanzt.</div>
+        </div>
+
+        <div class="cell tilt-b">
+          <div class="inner" style="background:#fff url('data:image/svg+xml;utf8, \
+            <svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 600%22><rect width=%22800%22 height=%22600%22 fill=%23ffffff/> \
+            <path d=%22M60 480 L740 180%22 stroke=%23000 stroke-width=%226%22 stroke-dasharray=%2210 12%22 fill=none/></svg>') center/cover no-repeat"></div>
+          <div class="caption h6" id="g-c4">Diagonale: weil irgendwo immer ein Ziel lauert.</div>
+        </div>
       </div>
-    </section>
-  </main>
 
-  <script>
-    // ===== i18n =====
-    const T = {
-      de: {
-        brand: "Stickerboard — Skizzen, Blog & Galerie",
-        tabs: { board: "Board", blog: "Blog", gallery: "Galerie" },
-        h1: "Projekt-Schnipsel",
-        p1: "Lose Gedanken zu LiDAR, Robotik und AV-Visuals — auf Papier geklebt.",
-        h2: "Punktwolken",
-        l1: "Voxel, Labeling, Vollständigkeit",
-        l2: "Qualitätsmetriken & Drift",
-        l3: ".LAS / .PLY / .NPY",
-        h3: "AV-Ästhetik",
-        p3: "Reduktion, Wiederholung, minimale Frequenzräume, wackelige Linien.",
-        h4: "Kontakt",
-        p4: 'Schick mir eine Mail: <a href="mailto:ga94wux@mytum.de">ga94wux@mytum.de</a>',
-        h5: "Tools",
-        p5: "ROS/ROS2 • Open3D • PyTorch • GLSL • Three.js",
-        b1: "Gedanken zu Trajektorien-Glättung und Loop-Closures in industriellen Hallen.",
-        b2: "Warum Metriken für Lücken, Dichte und Sichtbarkeit der Schlüssel sind.",
-        b3: "Minimalistische Signale, Raster, Shader-Experimente für Live-Setups.",
-        b4: "Speicher, Flüsse, Nutzerrollen — was ein Viewer wirklich sichtbar machen sollte."
-      },
-      en: {
-        brand: "Stickerboard — Sketches, Blog & Gallery",
-        tabs: { board: "Board", blog: "Blog", gallery: "Gallery" },
-        h1: "Project Scraps",
-        p1: "Loose thoughts on LiDAR, robotics and AV visuals — taped to paper.",
-        h2: "Point Clouds",
-        l1: "Voxels, labeling, completeness",
-        l2: "Quality metrics & drift",
-        l3: ".LAS / .PLY / .NPY",
-        h3: "AV Aesthetics",
-        p3: "Reduction, repetition, minimal frequency spaces, wobbly lines.",
-        h4: "Contact",
-        p4: 'Send me an email: <a href="mailto:ga94wux@mytum.de">ga94wux@mytum.de</a>',
-        h5: "Tools",
-        p5: "ROS/ROS2 • Open3D • PyTorch • GLSL • Three.js",
-        b1: "Thoughts on trajectory smoothing and loop closures in industrial halls.",
-        b2: "Why metrics for gaps, density and visibility are key.",
-        b3: "Minimal signals, grids, shader experiments for live setups.",
-        b4: "Storage, flows, user roles — what a viewer should truly reveal."
-      }
-    };
+      <div class="sticker s4 pin tilt-a" style="margin-top:16px">
+        <h3 class="h4 big" id="g-note-title">Anmerkung</h3>
+        <p class="h8 mid" id="g-note">
+          Wenn echte Bilder kommen, bleiben die Platzhalter als Randnotizen. Erinnerung braucht Rauschen.
+        </p>
+      </div>
+    </div>
+  </section>
+</main>
 
-    function setLang(lang){
-      localStorage.setItem('lang', lang);
-      const c = T[lang] || T.de;
-      document.getElementById('brand').textContent = c.brand;
-      // Tabs
-      document.getElementById('tab-board').textContent = c.tabs.board;
-      document.getElementById('tab-blog').textContent  = c.tabs.blog;
-      document.getElementById('tab-gallery').textContent = c.tabs.gallery;
-      // Board content
-      const m = (id, html=false) => {
-        const el = document.getElementById(id); if(!el) return;
-        if(html) el.innerHTML = c[id]; else el.textContent = c[id];
-      };
-      m('h1'); m('p1'); m('h2'); m('h3'); m('p3'); m('h4'); m('h5');
-      m('p4', true); m('p5'); m('b1'); m('b2'); m('b3'); m('b4');
-      ['l1','l2','l3'].forEach(k => m(k));
-      document.documentElement.lang = (lang === 'en' ? 'en' : 'de');
-    }
+<script>
+const T = {
+  de: {
+    brand: "Für Amelie (Amselie) — Board · Blog · Galerie",
+    tabs: { board:"Board", blog:"Blog", gallery:"Galerie" },
+    dedH: "Für Amelie – auch bekannt als Amselie",
+    dedP: "Diese Seite ist eine Liebeserklärung an deine Kunst, deinen Witz und deinen Eigensinn. Nichts ist ordentlich, alles ist echt.",
+    aboutH: "Über Amelie",
+    aboutP1: "Amelie (Amselie) ist ein Wirbel aus Farbe, Kopfkino und Rebellion. Sie malt toll, drückt sich in der Kunst aus und macht ihr eigenes Ding – kompromisslos freundlich.",
+    aboutP2: "Zwischen Skizzen und Ideen lässt sie Platz für Zufall: das ist ihr Motor.",
+    manifestH: "Mini-Manifest",
+    manifest1: "Kritzeln vor Perfekt. Risiko vor Regel. Gefühl vor Glanz.",
+    manifest2: "Was bleibt: eine Spur — leopardig, laut, liebevoll.",
+    noteH: "Randnotiz",
+    noteP: "Amselie, du bist die Collage. Alles andere ist nur Klebestift.",
+    blog1T:"Skizzen: Farbe & Frechheit", blog1M:"12.06.2025 · Notiz",
+    blog1E:"Warum Amelie mit drei Strichen Geschichten baut und mit einem Blick Mauern einreißt. Kunst als Alltagsgerät – tragbar wie ein Klappstuhl.",
+    blog2T:"Amselie – Mini-Chronik", blog2M:"10.06.2025 · Freunde",
+    blog2E:"Von Doodles zu Dialogen: wenn Rebellion zärtlich klingt und Linien Luft holen dürfen.",
+    blog3T:"Werkzeugkiste", blog3M:"08.06.2025 · Setup",
+    blog3E:"Marker, Tape, Zufall. Regeln? Nur zum Umbiegen. Jede Seite darf anders atmen.",
+    blog4T:"Leopardische Theorie", blog4M:"07.06.2025 · Musterkunde",
+    blog4E:"Flecken sind keine Fehler; es sind Koordinaten, an denen Augen hängen bleiben.",
+    gTitle:"Galerie-Intro",
+    gLead:"Eine Wand aus Platzhaltern – damit Raum bleibt für echte Bilder, echte Nächte, echtes Lachen. Jede Kachel ist eine Einladung, kein Rahmen.",
+    gC1:"Rahmen ohne Foto – wie ein Atemholen.",
+    gC2:"Kreis, weil Wege selten gerade sind.",
+    gC3:"Zickzack: die Linie, die tanzt.",
+    gC4:"Diagonale: weil irgendwo immer ein Ziel lauert.",
+    gNoteT:"Anmerkung",
+    gNote:"Wenn echte Bilder kommen, bleiben die Platzhalter als Randnotizen. Erinnerung braucht Rauschen."
+  },
+  en: {
+    brand: "For Amelie (Amselie) — Board · Blog · Gallery",
+    tabs: { board:"Board", blog:"Blog", gallery:"Gallery" },
+    dedH: "For Amelie — also known as Amselie",
+    dedP: "This site is a love letter to your art, wit, and independence. Nothing is tidy, everything is real.",
+    aboutH: "About Amelie",
+    aboutP1: "Amelie (Amselie) is a swirl of color, daydreams and rebellion. She paints beautifully, expresses herself through art and does her own thing — kindly uncompromising.",
+    aboutP2: "Between sketches and ideas she leaves room for chance: that’s her engine.",
+    manifestH: "Mini-Manifesto",
+    manifest1: "Scribble before perfect. Risk before rule. Feeling before polish.",
+    manifest2: "What remains: a trail — leopardish, loud, loving.",
+    noteH: "Margin Note",
+    noteP: "Amselie, you are the collage. Everything else is glue stick.",
+    blog1T:"Sketches: Color & Cheek", blog1M:"2025-06-12 · Note",
+    blog1E:"How three strokes spark stories and one glance breaks walls. Art as everyday gear — foldable like a chair.",
+    blog2T:"Amselie — A Mini Chronicle", blog2M:"2025-06-10 · Friends",
+    blog2E:"From doodles to dialogues: when rebellion sounds gentle and lines catch their breath.",
+    blog3T:"Toolbox", blog3M:"2025-06-08 · Setup",
+    blog3E:"Markers, tape, chance. Rules? For bending. Every page gets its own breath.",
+    blog4T:"Leopard Theory", blog4M:"2025-06-07 · Patterns",
+    blog4E:"Spots aren’t flaws; they’re coordinates where eyes like to stay.",
+    gTitle:"Gallery Intro",
+    gLead:"A wall of placeholders — leaving space for real pictures, real nights, real laughter. Every tile is an invitation, not a frame.",
+    gC1:"Frame without photo — like a breath.",
+    gC2:"A circle: paths rarely run straight.",
+    gC3:"Zigzag: a line that dances.",
+    gC4:"Diagonal: because a goal hides somewhere.",
+    gNoteT:"Note",
+    gNote:"When real images arrive, placeholders remain as margins. Memory needs noise."
+  }
+};
 
-    // ===== Layer Switch =====
-    const tabs = document.querySelectorAll('.tab');
-    function setLayer(id){
-      localStorage.setItem('layer', id);
-      document.querySelectorAll('.layer').forEach(l => l.classList.remove('active'));
-      document.getElementById('layer-'+id).classList.add('active');
-      tabs.forEach(t => t.classList.toggle('active', t.dataset.layer === id));
-    }
-    tabs.forEach(t => t.addEventListener('click', () => setLayer(t.dataset.layer)));
+function setLang(lang){
+  localStorage.setItem('lang', lang);
+  const c = T[lang] || T.de;
+  document.getElementById('brand').textContent = c.brand;
+  document.getElementById('tab-board').textContent = c.tabs.board;
+  document.getElementById('tab-blog').textContent = c.tabs.blog;
+  document.getElementById('tab-gallery').textContent = c.tabs.gallery;
 
-    // ===== Random Offsets for stickers =====
-    function rnd(min,max){ return Math.round(min + Math.random()*(max-min)); }
-    function applyRandomOffsets(){
-      document.querySelectorAll('.sticker').forEach(el=>{
-        const dx = rnd(-14, 14), dy = rnd(-10, 16);
-        el.dataset.dx = dx; el.dataset.dy = dy;
-        const current = getComputedStyle(el).transform;
-        el.style.transform = (current && current!=='none') ? `${current} translate(${dx}px, ${dy}px)` : `translate(${dx}px, ${dy}px)`;
-      });
-    }
+  // Board
+  document.getElementById('t-ded').textContent = c.dedH;
+  document.getElementById('p-ded').textContent = c.dedP;
+  document.getElementById('t-about').textContent = c.aboutH;
+  document.getElementById('p-about').textContent = c.aboutP1;
+  document.getElementById('p-about2').textContent = c.aboutP2;
+  document.getElementById('t-manifest').textContent = c.manifestH;
+  document.getElementById('p-manifest1').textContent = c.manifest1;
+  document.getElementById('p-manifest2').textContent = c.manifest2;
+  document.getElementById('t-note').textContent = c.noteH;
+  document.getElementById('p-note').textContent = c.noteP;
 
-    // ===== Dragging =====
-    let drag = null;
-    function pd(e){
-      const t = e.currentTarget;
-      drag = {
-        el: t,
-        startX: e.clientX, startY: e.clientY,
-        dx: parseFloat(t.dataset.dx || 0), dy: parseFloat(t.dataset.dy || 0),
-        base: getComputedStyle(t).transform
-      };
-      t.style.zIndex = 999; t.setPointerCapture(e.pointerId); e.preventDefault();
-    }
-    function pm(e){
-      if(!drag) return;
-      const nx = drag.dx + (e.clientX - drag.startX);
-      const ny = drag.dy + (e.clientY - drag.startY);
-      drag.el.dataset.dx = nx; drag.el.dataset.dy = ny;
-      const base = drag.base && drag.base!=='none' ? drag.base + ' ' : '';
-      drag.el.style.transform = `${base} translate(${nx}px, ${ny}px)`;
-    }
-    function pu(e){
-      if(!drag) return;
-      drag.el.style.zIndex = ''; drag.el.releasePointerCapture(e.pointerId); drag = null;
-    }
-    function makeDraggable(){
-      document.querySelectorAll('.draggable').forEach(el=>{
-        el.style.touchAction = 'none';
-        el.addEventListener('pointerdown', pd);
-        el.addEventListener('pointermove', pm);
-        el.addEventListener('pointerup', pu);
-        el.addEventListener('pointercancel', pu);
-        el.addEventListener('lostpointercapture', pu);
-      });
-    }
+  // Blog
+  document.getElementById('b-t1').textContent = c.blog1T;
+  document.getElementById('b-m1').textContent = c.blog1M;
+  document.getElementById('b-e1').textContent = c.blog1E;
+  document.getElementById('b-t2').textContent = c.blog2T;
+  document.getElementById('b-m2').textContent = c.blog2M;
+  document.getElementById('b-e2').textContent = c.blog2E;
+  document.getElementById('b-t3').textContent = c.blog3T;
+  document.getElementById('b-m3').textContent = c.blog3M;
+  document.getElementById('b-e3').textContent = c.blog3E;
+  document.getElementById('b-t4').textContent = c.blog4T;
+  document.getElementById('b-m4').textContent = c.blog4M;
+  document.getElementById('b-e4').textContent = c.blog4E;
 
-    // Reset Offsets
-    document.getElementById('resetBtn').addEventListener('click', ()=>{
-      document.querySelectorAll('.sticker').forEach(el=>{
-        el.style.transform = ''; el.dataset.dx = 0; el.dataset.dy = 0;
-      });
-      applyRandomOffsets();
-    });
+  // Galerie
+  document.getElementById('g-title').textContent = c.gTitle;
+  document.getElementById('g-lead').textContent  = c.gLead;
+  document.getElementById('g-c1').textContent = c.gC1;
+  document.getElementById('g-c2').textContent = c.gC2;
+  document.getElementById('g-c3').textContent = c.gC3;
+  document.getElementById('g-c4').textContent = c.gC4;
+  document.getElementById('g-note-title').textContent = c.gNoteT;
+  document.getElementById('g-note').textContent = c.gNote;
 
-    // ===== Init =====
-    (function init(){
-      const lang = localStorage.getItem('lang') || 'de';
-      const layer = localStorage.getItem('layer') || 'board';
-      setLang(lang);
-      setLayer(layer);
-      applyRandomOffsets();
-      makeDraggable();
-    })();
-  </script>
+  document.documentElement.lang = (lang==='en'?'en':'de');
+}
+
+const tabs = document.querySelectorAll('.tab');
+function setLayer(id){
+  document.querySelectorAll('.layer').forEach(l=>l.classList.remove('active'));
+  document.getElementById('layer-'+id).classList.add('active');
+  tabs.forEach(t=>t.classList.toggle('active', t.dataset.layer===id));
+  localStorage.setItem('layer', id);
+}
+tabs.forEach(t=>t.addEventListener('click', ()=>setLayer(t.dataset.layer)));
+
+setLang(localStorage.getItem('lang')||'de');
+setLayer(localStorage.getItem('layer')||'board');
+</script>
 </body>
 </html>
