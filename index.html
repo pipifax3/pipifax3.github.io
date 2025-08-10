@@ -3,9 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Für Amelie (Amselie) — Board · Blog · Galerie</title>
+<title>Amselie — Board · Blog · Galerie</title>
 
-<!-- Handschrift-/Marker-Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Gloria+Hallelujah&family=Shadows+Into+Light&family=Caveat:wght@700&family=Architects+Daughter&family=Handlee&family=Amatic+SC:wght@700&family=Indie+Flower&display=swap" rel="stylesheet">
 
 <style>
@@ -53,7 +52,7 @@ body::after{
   background-size:360px 360px;
 }
 
-/* Header + Tabs + Sprache */
+/* Header / Tabs / Lang */
 header{
   position:sticky; top:0; z-index:20; display:flex; gap:10px; align-items:center; justify-content:space-between;
   padding:14px 14px 10px; background:linear-gradient(var(--paper) 75%, rgba(255,255,255,0));
@@ -67,7 +66,7 @@ header{
 .btn:hover{ transform:rotate(.6deg) translateY(-1px) }
 .tab{ opacity:.7 } .tab.active{ opacity:1; background:#fff; color:var(--active) }
 
-main{ padding: 20px 12px 70px }
+main{ padding:20px 12px 70px }
 .layer{ display:none } .layer.active{ display:block }
 .max{ max-width:1200px; margin:0 auto }
 
@@ -127,7 +126,7 @@ main{ padding: 20px 12px 70px }
 @media (max-width:1024px){ .cell{ grid-column:span 4 } }
 @media (max-width:640px){ .cell{ grid-column:span 6 } }
 
-/* ASCII-Fläche (Klappstuhl) */
+/* ASCII-Klappstuhl neu */
 pre.ascii-chair{
   font-family: monospace; line-height:1; white-space:pre;
   background:#111; color:#0f0; padding:10px; overflow:auto; border:1px dashed #0f0;
@@ -136,7 +135,7 @@ pre.ascii-chair{
 </head>
 <body>
 <header>
-  <h1 class="brand" id="brand">Für Amelie (Amselie) — Board · Blog · Galerie</h1>
+  <h1 class="brand" id="brand">Amselie — Board · Blog · Galerie</h1>
   <div class="controls">
     <button class="btn tab active" data-layer="board" id="tab-board">Board</button>
     <button class="btn tab" data-layer="blog" id="tab-blog">Blog</button>
@@ -151,267 +150,90 @@ pre.ascii-chair{
   <section class="layer active" id="layer-board">
     <div class="max">
       <div class="grid">
-        <!-- Widmung -->
+        <!-- Titel / Widmung kurz -->
         <div class="span-7 left">
           <article class="sticker s8 tape tilt-a">
-            <h2 class="h1 xl" id="t-ded">Für Amelie – auch bekannt als Amselie</h2>
-            <p class="h5 mid" id="p-ded">
-              Diese Seite ist eine Liebeserklärung an deine Kunst, deinen Witz und deinen Eigensinn.
-              Nichts ist ordentlich, alles ist echt.
-            </p>
+            <h2 class="h1 xl">Für Amelie — Amselie</h2>
+            <p class="h6 mid">Pinwand für alles Echtes. Ohne Filter.</p>
           </article>
         </div>
 
-        <!-- Beschreibung -->
-        <div class="span-5 right">
-          <article class="sticker s6 pin tilt-b">
-            <h3 class="h2 big" id="t-about">Über Amelie</h3>
-            <p class="h6 mid" id="p-about">
-              Amelie (Amselie) ist ein Wirbel aus Farbe, Kopfkino und Rebellion.
-              Sie malt toll, drückt sich in der Kunst aus und macht ihr eigenes Ding – kompromisslos freundlich.
-            </p>
-            <p class="h7 small" id="p-about2">
-              Zwischen Skizzen und Ideen lässt sie Platz für Zufall: das ist ihr Motor.
-            </p>
-          </article>
-        </div>
+        <!-- Notizzettel: Zitate einzeln -->
+        <div class="span-5 right"><article class="sticker s6 pin tilt-b"><h3 class="h2 big">„Amelie malt toll“</h3></article></div>
+        <div class="span-4 left"><article class="sticker s1 dogear tilt-c"><h3 class="h3 big">„Sie drückt sich gern in der Kunst aus und ist rebellisch“</h3></article></div>
+        <div class="span-6 right"><article class="sticker s2 tape tilt-d"><h3 class="h4 big">„Amseli ist die beste amseli der welt“</h3></article></div>
+        <div class="span-5 left"><article class="sticker s9 dogear tilt-b"><h3 class="h5 big">„Wenn amelie ein Tier wäre wäre sie ein affe“</h3></article></div>
+        <div class="span-7 right"><article class="sticker s7 pin tilt-a"><h3 class="h6 big">„Amselie übertrifft jeden in Kreativität“</h3></article></div>
+        <div class="span-6 left"><article class="sticker s4 tape tilt-c"><h3 class="h7 big">„Sie macht immer ihr eigenes ding.“</h3></article></div>
+        <div class="span-6 right"><article class="sticker s10 dogear tilt-d"><h3 class="h8 big">„Amselie gammelt wie ne echte gammelie“</h3></article></div>
+        <div class="span-4 left"><article class="sticker s3 pin tilt-b"><h3 class="h2 big">„Amselie die Amsel“</h3></article></div>
+        <div class="span-5 right"><article class="sticker s6 tape tilt-a"><h3 class="h3 big">„Spikey, Cunty, Amely“</h3></article></div>
+        <div class="span-7 left"><article class="sticker s1 dogear tilt-c"><h3 class="h4 big">„Eat Sleep Amelie Repeat“</h3></article></div>
+        <div class="span-5 right"><article class="sticker s8 pin tilt-d"><h3 class="h5 big">„Lebensfrohe oboe“</h3></article></div>
+        <div class="span-7 left"><article class="sticker s2 tape tilt-b"><h3 class="h6 big">„Der schönste Rubyn im Schmuckkasterl“</h3></article></div>
+        <div class="span-6 right"><article class="sticker s9 dogear tilt-a"><h3 class="h7 big">„Amselie ist ein lufttier“</h3></article></div>
+        <div class="span-6 left"><article class="sticker s4 pin tilt-c"><h3 class="h8 big">„Mein Kopf ist leer denk denk denken kann ich nicht mehr“</h3></article></div>
+        <div class="span-7 right"><article class="sticker s3 tape tilt-d"><h3 class="h1 big">„Amelie Emma Roberta Antonia Brauer!“</h3></article></div>
+        <div class="span-5 left"><article class="sticker s7 dogear tilt-b"><h3 class="h2 big">„Amelie hat fast Jawline“</h3></article></div>
+        <div class="span-5 right"><article class="sticker s10 pin tilt-a"><h3 class="h3 big">„Amelie Schwammelie“</h3></article></div>
+        <div class="span-7 left"><article class="sticker s6 tape tilt-c"><h3 class="h4 big">„Amelie is einfach da Wahn!“</h3></article></div>
 
-        <!-- Zitate 1:1 -->
-        <div class="span-7 left">
-          <article class="sticker s9 dogear tilt-d">
-            <h3 class="h3 big" id="t-quotes">Freunde über Amselie</h3>
-            <ul class="small h7" style="list-style:'— '; padding-left:1ch; margin:0">
-              <li>Amelie malt toll</li>
-              <li>Sie drückt sich gern in der Kunst aus und ist rebellisch</li>
-              <li>Amseli ist die beste amseli der welt</li>
-              <li>Wenn amelie ein Tier wäre wäre sie ein affe</li>
-              <li>Amselie übertrifft jeden in Kreativität</li>
-              <li>Sie macht immer ihr eigenes ding.</li>
-              <li>Amselie gammelt wie ne echte gammelie</li>
-              <li>Amselie die Amsel</li>
-              <li>Spikey, Cunty, Amely</li>
-              <li>Eat Sleep Amelie Repeat</li>
-              <li>Lebensfrohe oboe</li>
-              <li>Der schönste Rubyn im Schmuckkasterl</li>
-              <li>Amselie ist ein lufttier</li>
-              <li>Mein Kopf ist leer denk denk denken kann ich nicht mehr</li>
-              <li>Amelie Emma Roberta Antonia Brauer!</li>
-              <li>Amelie hat fast Jawline</li>
-              <li>Amelie Schwammelie</li>
-              <li>Amelie is einfach da Wahn!</li>
-            </ul>
-          </article>
-        </div>
-
-        <!-- Manifest / Leitmotiv -->
-        <div class="span-5 right">
-          <article class="sticker s1 tape tilt-c">
-            <h3 class="h4 big" id="t-manifest">Mini-Manifest</h3>
-            <p class="h6 mid" id="p-manifest1">Kritzeln vor Perfekt. Risiko vor Regel. Gefühl vor Glanz.</p>
-            <p class="h8 small" id="p-manifest2">Was bleibt: eine Spur — leopardig, laut, liebevoll.</p>
-          </article>
-        </div>
-
-        <!-- ASCII-Klappstuhl (ersetzt vorherige Version) -->
-        <div class="span-6 left">
-          <article class="sticker s3 pin tilt-b">
-            <h3 class="h5 big" id="t-chair">TXT – Klappstuhl</h3>
-            <pre class="ascii-chair">........................................
-........................................
-....__..............................___.
-....||............................._/...
-....||............................_/....
-....||_..................._____../......
-...../.................._________/......
-.....|.................._________|......
-.....|.................___________|......
-.....|.................___________|......
-.....|_................__________|......
-......|................__________|......
-......|................__________|......
-......|................__________|......
-......|................__________|......
-......|_...............__________|......
-.......|...............__________|......
-.......|...............__________|......
-.......|...............__________|......
-.......|...............__________|......
-.......|_..............__________|......
-........|..............__________|......
-........|..............__________|......
-........|..............__________|......
-........|..............__________|......
-........|_.............__________|......
-.........|.............__________|......
-.........|.............__________|......
-.........|.............__________|......
-.........|.............__________|......
-.........|_............__________|......
-..........|............__________|......
-..........|............__________|......
-..........|............__________|......
-..........|............__________|......
-..........|_...........__________|......
-...........|...........__________|......
-...........|...........__________|......
-...........|...........__________|......
-...........|...........__________|......
-...........|_..........__________|......
-............|..........__________|......
-............|..........__________|......
-............|..........__________|......
-............|..........__________|......
-............|_.........__________|......
-.............|.........__________|......
-.............|.........__________|......
-.............|.........__________|......
-.............|.........__________|......
-.............|_........__________|......
-..............|........__________|......
-..............|........__________|......
-..............|........__________|......
-..............|........__________|......
-..............|_.......__________|......
-...............|.......__________|......
-...............|.......__________|......
-...............|.......__________|......
-...............|.......__________|......
-...............|_......__________|......
-................|......__________|......
-................|......__________|......
-................|......__________|......
-................|......__________|......
-................|_.....__________|......
-.................|.....__________|......
-.................|.....__________|......
-.................|.....__________|......
-.................|.....__________|......
-.................|_....__________|......
-..................|....__________|......
-..................|....__________|......
-..................|....__________|......
-..................|....__________|......
-..................|_...__________|......
-...................|...__________|......
-...................|...__________|......
-...................|...__________|......
-...................|...__________|......
-...................|_..__________|......
-....................|..__________|......
-....................|..__________|......
-....................|..__________|......
-....................|..__________|......
-....................|_.__________|......
-.....................|_._-------_|......
-......................|...........|.....
-......................|...........|.....
-......................|...........|.....
-......................|...........|.....
-......................|...........|.....
-......................|...........|.....
-......................|...........|.....
-......................|...........|.....
-......................|...........|.....
-......................|...........|.....
-......................|___________|.....
-......................|___________|.....
-......................|___________|.....
-......................|___________|.....
-......................|___________|.....
-......................|___________|.....
-......................|___________|.....
-......................|___________|.....
-......................|___________|.....
-......................|___________|.....
-......................|___________|.....
-......................|___________|.....
-......................|___________|.....
-......................|___________|......
-......................|___________|......
-......................|___________|......
-......................|___________|......
-......................|___________|......
-......................|___________|......
-......................|___________|......
-......................|___________|......
-......................|___________|......
-......................|___________|......
-......................|___________|......
-......................|___________|......
-......................|___________|......
-......................|___________|......
-......................|___________|......
-......................|___________|......
-......................|___________|......
-......................|___________|......
-......................|___________|......
-......................|___________|......
-......................|___________|......
-......................|___________|......
-</pre>
-          </article>
-        </div>
-
-        <!-- Zusatz-Textblock -->
+        <!-- ASCII-Klappstuhl (neue Version) -->
         <div class="span-6 right">
-          <article class="sticker s2 tape tilt-a">
-            <h3 class="h6 big" id="t-note">Randnotiz</h3>
-            <p class="h3 mid" id="p-note">
-              Amselie, du bist die Collage. Alles andere ist nur Klebestift.
-            </p>
+          <article class="sticker s5 pin tilt-b">
+            <h3 class="h5 big">TXT — Klappstuhl</h3>
+            <pre class="ascii-chair">
+  ______
+ |      |
+ |      |
+\__    __/
+   \__/
+   /  \
+  /    \
+            </pre>
           </article>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- LAYER 2: BLOG -->
+  <!-- LAYER 2: BLOG (kurze, zitratige Notizen) -->
   <section class="layer" id="layer-blog">
     <div class="max blog">
       <article class="post tilt-a">
-        <h2 class="title h1" id="b-t1">Skizzen: Farbe & Frechheit</h2>
-        <p class="meta" id="b-m1">12.06.2025 · Notiz</p>
-        <p class="excerpt h6" id="b-e1">
-          Warum Amelie mit drei Strichen Geschichten baut und mit einem Blick Mauern einreißt. Kunst als
-          Alltagsgerät – tragbar wie ein Klappstuhl.
-        </p>
+        <h2 class="title h1">Notizbuch #1</h2>
+        <p class="meta" id="b-m1">aus dem Freundeskreis</p>
+        <p class="excerpt h6">„Amselie übertrifft jeden in Kreativität.“</p>
+        <p class="excerpt h6">„Sie macht immer ihr eigenes ding.“</p>
       </article>
 
       <article class="post tilt-b">
-        <h2 class="title h2" id="b-t2">Amselie – Mini-Chronik</h2>
-        <p class="meta" id="b-m2">10.06.2025 · Freunde</p>
-        <p class="excerpt h5" id="b-e2">
-          Von Doodles zu Dialogen: wenn Rebellion zärtlich klingt und Linien Luft holen dürfen.
-        </p>
+        <h2 class="title h2">Notizbuch #2</h2>
+        <p class="meta">random thoughts</p>
+        <p class="excerpt h5">„Eat Sleep Amelie Repeat“ · „Amselie die Amsel“</p>
       </article>
 
       <article class="post tilt-b">
-        <h2 class="title h4" id="b-t3">Werkzeugkiste</h2>
-        <p class="meta" id="b-m3">08.06.2025 · Setup</p>
-        <p class="excerpt h8" id="b-e3">
-          Marker, Tape, Zufall. Regeln? Nur zum Umbiegen. Jede Seite darf anders atmen.
-        </p>
+        <h2 class="title h4">Notizbuch #3</h2>
+        <p class="meta">klebezettel</p>
+        <p class="excerpt h8">„Der schönste Rubyn im Schmuckkasterl.“</p>
+        <p class="excerpt h8">„Lebensfrohe oboe.“</p>
       </article>
 
       <article class="post tilt-a">
-        <h2 class="title h5" id="b-t4">Leopardische Theorie</h2>
-        <p class="meta" id="b-m4">07.06.2025 · Musterkunde</p>
-        <p class="excerpt h7" id="b-e4">
-          Flecken sind keine Fehler; es sind Koordinaten, an denen Augen hängen bleiben.
-        </p>
+        <h2 class="title h5">Notizbuch #4</h2>
+        <p class="meta">nachts</p>
+        <p class="excerpt h7">„Mein Kopf ist leer denk denk denken kann ich nicht mehr.“</p>
       </article>
     </div>
   </section>
 
-  <!-- LAYER 3: GALERIE -->
+  <!-- LAYER 3: GALERIE (Platzhalter + Zetteltexte) -->
   <section class="layer" id="layer-gallery">
     <div class="max">
       <div class="sticker s7 tape tilt-b" style="margin-bottom:16px">
-        <h3 class="h3 big" id="g-title">Galerie-Intro</h3>
-        <p class="h6 mid" id="g-lead">
-          Eine Wand aus Platzhaltern – damit Raum bleibt für echte Bilder, echte Nächte, echtes Lachen.
-          Jede Kachel ist eine Einladung, kein Rahmen.
-        </p>
+        <h3 class="h3 big">Galerie</h3>
+        <p class="h6 mid">Wenn Bilder kommen, hängen wir sie hierhin. Bis dahin: Platzhalter + Zettel.</p>
       </div>
 
       <div class="gallery-grid">
@@ -419,36 +241,29 @@ pre.ascii-chair{
           <div class="inner" style="background:#fff url('data:image/svg+xml;utf8, \
             <svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 600%22><rect width=%22800%22 height=%22600%22 fill=%23ffffff/> \
             <rect x=%2260%22 y=%2260%22 width=%22680%22 height=%22480%22 fill=none stroke=%23000 stroke-width=%226%22/></svg>') center/cover no-repeat"></div>
-          <div class="caption h6" id="g-c1">Rahmen ohne Foto – wie ein Atemholen.</div>
+          <div class="caption h6">„Amseli ist die beste amseli der welt.“</div>
         </div>
 
         <div class="cell tilt-c">
           <div class="inner" style="background:#fff url('data:image/svg+xml;utf8, \
             <svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 600%22><rect width=%22800%22 height=%22600%22 fill=%23ffffff/> \
             <circle cx=%22400%22 cy=%22300%22 r=%22180%22 fill=none stroke=%23000 stroke-width=%226%22 stroke-dasharray=%228 10%22/></svg>') center/cover no-repeat"></div>
-          <div class="caption h6" id="g-c2">Kreis, weil Wege selten gerade sind.</div>
+          <div class="caption h6">„Amselie ist ein lufttier.“</div>
         </div>
 
         <div class="cell tilt-d">
           <div class="inner" style="background:#fff url('data:image/svg+xml;utf8, \
             <svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 600%22><rect width=%22800%22 height=%22600%22 fill=%23ffffff/> \
             <polyline points=%2260,520 140,420 220,520 300,420 380,520 460,420 540,520 620,420 700,520%22 fill=none stroke=%23000 stroke-width=%226%22 stroke-dasharray=%226 10%22/></svg>') center/cover no-repeat"></div>
-          <div class="caption h6" id="g-c3">Zickzack: die Linie, die tanzt.</div>
+          <div class="caption h6">„Spikey, Cunty, Amely.“</div>
         </div>
 
         <div class="cell tilt-b">
           <div class="inner" style="background:#fff url('data:image/svg+xml;utf8, \
             <svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 600%22><rect width=%22800%22 height=%22600%22 fill=%23ffffff/> \
             <path d=%22M60 480 L740 180%22 stroke=%23000 stroke-width=%226%22 stroke-dasharray=%2210 12%22 fill=none/></svg>') center/cover no-repeat"></div>
-          <div class="caption h6" id="g-c4">Diagonale: weil irgendwo immer ein Ziel lauert.</div>
+          <div class="caption h6">„Amelie Schwammelie.“</div>
         </div>
-      </div>
-
-      <div class="sticker s4 pin tilt-a" style="margin-top:16px">
-        <h3 class="h4 big" id="g-note-title">Anmerkung</h3>
-        <p class="h8 mid" id="g-note">
-          Wenn echte Bilder kommen, bleiben die Platzhalter als Randnotizen. Erinnerung braucht Rauschen.
-        </p>
       </div>
     </div>
   </section>
@@ -456,68 +271,9 @@ pre.ascii-chair{
 
 <script>
 const T = {
-  de: {
-    brand: "Für Amelie (Amselie) — Board · Blog · Galerie",
-    tabs: { board:"Board", blog:"Blog", gallery:"Galerie" },
-    dedH: "Für Amelie – auch bekannt als Amselie",
-    dedP: "Diese Seite ist eine Liebeserklärung an deine Kunst, deinen Witz und deinen Eigensinn. Nichts ist ordentlich, alles ist echt.",
-    aboutH: "Über Amelie",
-    aboutP1: "Amelie (Amselie) ist ein Wirbel aus Farbe, Kopfkino und Rebellion. Sie malt toll, drückt sich in der Kunst aus und macht ihr eigenes Ding – kompromisslos freundlich.",
-    aboutP2: "Zwischen Skizzen und Ideen lässt sie Platz für Zufall: das ist ihr Motor.",
-    manifestH: "Mini-Manifest",
-    manifest1: "Kritzeln vor Perfekt. Risiko vor Regel. Gefühl vor Glanz.",
-    manifest2: "Was bleibt: eine Spur — leopardig, laut, liebevoll.",
-    noteH: "Randnotiz",
-    noteP: "Amselie, du bist die Collage. Alles andere ist nur Klebestift.",
-    blog1T:"Skizzen: Farbe & Frechheit", blog1M:"12.06.2025 · Notiz",
-    blog1E:"Warum Amelie mit drei Strichen Geschichten baut und mit einem Blick Mauern einreißt. Kunst als Alltagsgerät – tragbar wie ein Klappstuhl.",
-    blog2T:"Amselie – Mini-Chronik", blog2M:"10.06.2025 · Freunde",
-    blog2E:"Von Doodles zu Dialogen: wenn Rebellion zärtlich klingt und Linien Luft holen dürfen.",
-    blog3T:"Werkzeugkiste", blog3M:"08.06.2025 · Setup",
-    blog3E:"Marker, Tape, Zufall. Regeln? Nur zum Umbiegen. Jede Seite darf anders atmen.",
-    blog4T:"Leopardische Theorie", blog4M:"07.06.2025 · Musterkunde",
-    blog4E:"Flecken sind keine Fehler; es sind Koordinaten, an denen Augen hängen bleiben.",
-    gTitle:"Galerie-Intro",
-    gLead:"Eine Wand aus Platzhaltern – damit Raum bleibt für echte Bilder, echte Nächte, echtes Lachen. Jede Kachel ist eine Einladung, kein Rahmen.",
-    gC1:"Rahmen ohne Foto – wie ein Atemholen.",
-    gC2:"Kreis, weil Wege selten gerade sind.",
-    gC3:"Zickzack: die Linie, die tanzt.",
-    gC4:"Diagonale: weil irgendwo immer ein Ziel lauert.",
-    gNoteT:"Anmerkung",
-    gNote:"Wenn echte Bilder kommen, bleiben die Platzhalter als Randnotizen. Erinnerung braucht Rauschen."
-  },
-  en: {
-    brand: "For Amelie (Amselie) — Board · Blog · Gallery",
-    tabs: { board:"Board", blog:"Blog", gallery:"Gallery" },
-    dedH: "For Amelie — also known as Amselie",
-    dedP: "This site is a love letter to your art, wit, and independence. Nothing is tidy, everything is real.",
-    aboutH: "About Amelie",
-    aboutP1: "Amelie (Amselie) is a swirl of color, daydreams and rebellion. She paints beautifully, expresses herself through art and does her own thing — kindly uncompromising.",
-    aboutP2: "Between sketches and ideas she leaves room for chance: that’s her engine.",
-    manifestH: "Mini-Manifesto",
-    manifest1: "Scribble before perfect. Risk before rule. Feeling before polish.",
-    manifest2: "What remains: a trail — leopardish, loud, loving.",
-    noteH: "Margin Note",
-    noteP: "Amselie, you are the collage. Everything else is glue stick.",
-    blog1T:"Sketches: Color & Cheek", blog1M:"2025-06-12 · Note",
-    blog1E:"How three strokes spark stories and one glance breaks walls. Art as everyday gear — foldable like a chair.",
-    blog2T:"Amselie — A Mini Chronicle", blog2M:"2025-06-10 · Friends",
-    blog2E:"From doodles to dialogues: when rebellion sounds gentle and lines catch their breath.",
-    blog3T:"Toolbox", blog3M:"2025-06-08 · Setup",
-    blog3E:"Markers, tape, chance. Rules? For bending. Every page gets its own breath.",
-    blog4T:"Leopard Theory", blog4M:"2025-06-07 · Patterns",
-    blog4E:"Spots aren’t flaws; they’re coordinates where eyes like to stay.",
-    gTitle:"Gallery Intro",
-    gLead:"A wall of placeholders — leaving space for real pictures, real nights, real laughter. Every tile is an invitation, not a frame.",
-    gC1:"Frame without photo — like a breath.",
-    gC2:"A circle: paths rarely run straight.",
-    gC3:"Zigzag: a line that dances.",
-    gC4:"Diagonal: because a goal hides somewhere.",
-    gNoteT:"Note",
-    gNote:"When real images arrive, placeholders remain as margins. Memory needs noise."
-  }
+  de: { brand:"Amselie — Board · Blog · Galerie", tabs:{board:"Board",blog:"Blog",gallery:"Galerie"} },
+  en: { brand:"Amselie — Board · Blog · Gallery", tabs:{board:"Board",blog:"Blog",gallery:"Gallery"} }
 };
-
 function setLang(lang){
   localStorage.setItem('lang', lang);
   const c = T[lang] || T.de;
@@ -525,46 +281,8 @@ function setLang(lang){
   document.getElementById('tab-board').textContent = c.tabs.board;
   document.getElementById('tab-blog').textContent = c.tabs.blog;
   document.getElementById('tab-gallery').textContent = c.tabs.gallery;
-
-  // Board
-  document.getElementById('t-ded').textContent = c.dedH;
-  document.getElementById('p-ded').textContent = c.dedP;
-  document.getElementById('t-about').textContent = c.aboutH;
-  document.getElementById('p-about').textContent = c.aboutP1;
-  document.getElementById('p-about2').textContent = c.aboutP2;
-  document.getElementById('t-manifest').textContent = c.manifestH;
-  document.getElementById('p-manifest1').textContent = c.manifest1;
-  document.getElementById('p-manifest2').textContent = c.manifest2;
-  document.getElementById('t-note').textContent = c.noteH;
-  document.getElementById('p-note').textContent = c.noteP;
-
-  // Blog
-  document.getElementById('b-t1').textContent = c.blog1T;
-  document.getElementById('b-m1').textContent = c.blog1M;
-  document.getElementById('b-e1').textContent = c.blog1E;
-  document.getElementById('b-t2').textContent = c.blog2T;
-  document.getElementById('b-m2').textContent = c.blog2M;
-  document.getElementById('b-e2').textContent = c.blog2E;
-  document.getElementById('b-t3').textContent = c.blog3T;
-  document.getElementById('b-m3').textContent = c.blog3M;
-  document.getElementById('b-e3').textContent = c.blog3E;
-  document.getElementById('b-t4').textContent = c.blog4T;
-  document.getElementById('b-m4').textContent = c.blog4M;
-  document.getElementById('b-e4').textContent = c.blog4E;
-
-  // Galerie
-  document.getElementById('g-title').textContent = c.gTitle;
-  document.getElementById('g-lead').textContent  = c.gLead;
-  document.getElementById('g-c1').textContent = c.gC1;
-  document.getElementById('g-c2').textContent = c.gC2;
-  document.getElementById('g-c3').textContent = c.gC3;
-  document.getElementById('g-c4').textContent = c.gC4;
-  document.getElementById('g-note-title').textContent = c.gNoteT;
-  document.getElementById('g-note').textContent = c.gNote;
-
   document.documentElement.lang = (lang==='en'?'en':'de');
 }
-
 const tabs = document.querySelectorAll('.tab');
 function setLayer(id){
   document.querySelectorAll('.layer').forEach(l=>l.classList.remove('active'));
@@ -573,7 +291,6 @@ function setLayer(id){
   localStorage.setItem('layer', id);
 }
 tabs.forEach(t=>t.addEventListener('click', ()=>setLayer(t.dataset.layer)));
-
 setLang(localStorage.getItem('lang')||'de');
 setLayer(localStorage.getItem('layer')||'board');
 </script>
