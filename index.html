@@ -2,358 +2,285 @@
 <html lang="de">
 <head>
   <meta charset="utf-8" />
-  <title>Maximilian Hackl — Autonomous 3D Scanning & AV Art</title>
+  <title>Skizzen & Notizen</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- SEO -->
-  <meta name="description" content="Portfolio von Maximilian Hackl: Autonomous 3D Scanning, industrielle Digitale Zwillinge, LiDAR, Robotik und audiovisuelle Live-Visuals." />
-  <meta name="keywords" content="LiDAR, SLAM, Robotik, Punktwolken, Digital Twin, AV, VJ" />
-  <link rel="canonical" href="https://example.com/" />
-
-  <!-- Open Graph -->
-  <meta property="og:title" content="Maximilian Hackl — Autonomous 3D Scanning & AV Art" />
-  <meta property="og:description" content="Engineering × Audiovisuals: Robotic Scanning, Point Clouds, Live Visuals." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://example.com/" />
-  <meta property="og:image" content="https://example.com/og-image.jpg" />
-
-  <!-- Fonts (lokal ersetzbar) -->
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
+  <!-- Handwritten / messy fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&family=Shadows+Into+Light&family=Caveat:wght@700&display=swap" rel="stylesheet">
 
   <style>
+    /* ====== Grundlook: weißes Papier mit feiner Textur ====== */
     :root{
-      --bg: #0b0b0c;
-      --fg: #e8e8ea;
-      --muted: #a7a7ad;
-      --accent: #ffe26a;
-      --card: #121214;
-      --border: rgba(255,255,255,0.08);
-      --shadow: 0 8px 30px rgba(0,0,0,0.35);
+      --bg: #fffdf9;       /* warm-weiß */
+      --ink: #111;         /* schwarzer Text */
+      --border: rgba(0,0,0,0.22);
+      --shadow: rgba(0,0,0,0.06);
+      --tape: #f1e6a8;
     }
-    [data-theme="light"]{
-      --bg: #fbfbfd;
-      --fg: #111114;
-      --muted: #4e4e55;
-      --accent: #7a5cff;
-      --card: #ffffff;
-      --border: rgba(0,0,0,0.08);
-      --shadow: 0 8px 24px rgba(0,0,0,0.12);
+    html, body { margin:0; padding:0 }
+    body{
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Gloria Hallelujah","Shadows Into Light","Caveat", cursive, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      font-style: italic;  /* bewusst „messy/kurvig“ */
+      line-height: 1.25;
+    }
+    /* zarte Vignette + ultra-feines Rauschen für Papierstruktur */
+    body::before{
+      content:"";
+      position:fixed; inset:0; z-index:-2; pointer-events:none;
+      background:
+        radial-gradient(80vw 70vh at 20% -10%, rgba(0,0,0,0.06), transparent 60%),
+        radial-gradient(80vw 70vh at 100% 120%, rgba(0,0,0,0.05), transparent 60%),
+        linear-gradient(180deg, rgba(0,0,0,0.02), rgba(255,255,255,0.02));
+    }
+    body::after{
+      content:"";
+      position:fixed; inset:0; z-index:-1; pointer-events:none; opacity:.18;
+      background-image: url("data:image/svg+xml;utf8,\
+        <svg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'>\
+          <filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/></filter>\
+          <rect width='100%' height='100%' filter='url(%23n)' opacity='0.05'/>\
+        </svg>");
+      background-size: 220px 220px;
     }
 
-    * { box-sizing: border-box }
-    html, body {
-      margin: 0; padding: 0;
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      background: var(--bg); color: var(--fg);
-      scroll-behavior: smooth;
-      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
-    }
-
-    /* Skip-Link für A11y */
-    .skip-link{
-      position:absolute; left:-999px; top:auto; width:1px; height:1px; overflow:hidden;
-    }
-    .skip-link:focus{ position:fixed; left:16px; top:16px; width:auto; height:auto; padding:10px 14px; background:var(--accent); color:#000; z-index:9999; border-radius:8px }
-
+    /* ====== Header + Sprachumschaltung ====== */
     header{
-      position:sticky; top:0; z-index:50;
-      backdrop-filter: saturate(140%) blur(8px);
-      background: linear-gradient(to bottom, rgba(0,0,0,0.5), transparent);
-      border-bottom: 1px solid var(--border);
-    }
-    .nav{
-      max-width:1200px; margin:0 auto; padding:14px 20px;
       display:flex; align-items:center; justify-content:space-between;
+      padding:16px 18px 8px; position:sticky; top:0;
+      background: linear-gradient(var(--bg) 70%, transparent);
+      border-bottom: 1px dashed var(--border);
     }
-    .brand{ font-weight:800; letter-spacing:0.5px }
-    .brand small{ font-weight:400; color:var(--muted) }
-    nav a{
-      color:var(--fg); text-decoration:none; margin-left:20px; font-weight:500;
-      opacity:0.9;
+    .brand{
+      font-size: clamp(20px, 4vw, 34px);
+      transform: rotate(-1.2deg);
+      text-decoration: underline wavy rgba(0,0,0,0.35);
+      text-underline-offset: 4px;
+      margin: 0;
     }
-    nav a:hover{ opacity:1; color:var(--accent) }
-
-    .toggle-wrap{ display:flex; gap:8px; align-items:center }
+    .lang{ display:flex; gap:8px }
     .btn{
-      background:transparent; color:var(--fg); border:1px solid var(--border);
-      padding:8px 12px; border-radius:10px; cursor:pointer; font: inherit;
-      transition: transform .05s ease, background .2s ease;
+      border:1px dashed var(--border);
+      background:#fff9d6;
+      padding:6px 10px; cursor:pointer; font: inherit;
+      border-radius:6px; box-shadow: 2px 2px 0 var(--shadow);
+      transform: rotate(0.8deg);
     }
-    .btn:hover{ background:var(--card) }
-    .btn:active{ transform: translateY(1px) }
+    .btn:hover{ transform: rotate(0.8deg) translateY(-1px) }
 
-    /* Canvas Background */
-    canvas#bg{
-      position:fixed; inset:0; width:100vw; height:100vh; display:block; z-index:-1;
-      pointer-events:none;
-    }
-    .gradient-overlay{
-      position:fixed; inset:0; z-index:-2;
-      background: radial-gradient(60vw 60vw at 80% -10%, rgba(255,226,106,0.18), transparent 60%),
-                  radial-gradient(40vw 40vw at 0% 100%, rgba(122,92,255,0.14), transparent 60%);
-    }
-
-    /* Hero */
-    .hero{
-      min-height:78vh; display:flex; align-items:center; justify-content:center; text-align:center;
-      padding:80px 20px 40px;
-    }
-    .hero-inner{ max-width:980px }
-    h1{
-      font-size: clamp(32px, 5vw, 60px); line-height:1.05; margin:0 0 14px 0;
-      letter-spacing:-0.5px;
-    }
-    .lead{
-      font-size: clamp(16px, 2.2vw, 20px);
-      color:var(--muted); margin:0 auto 26px; max-width:800px;
-    }
-    .cta{
-      display:flex; gap:12px; justify-content:center; flex-wrap:wrap;
-      margin-top:12px;
-    }
-    .cta .btn.primary{
-      background:var(--accent); color:#111; border-color:transparent; font-weight:700;
-    }
-    .cta .btn.primary:hover{ filter:brightness(1.05) }
-
-    /* Sections */
-    section{ padding:80px 20px }
-    .container{ max-width:1200px; margin:0 auto }
-
-    .section-title{
-      font-size: clamp(22px, 3vw, 32px); margin:0 0 24px; letter-spacing:-0.2px;
-    }
-    .section-sub{ color:var(--muted); margin-top:-10px; margin-bottom:28px }
-
-    /* Grid */
-    .grid{
+    /* ====== Collage-Layout: bewusst chaotisch ====== */
+    main{ padding: 22px 14px 60px }
+    .collage{
       display:grid;
       grid-template-columns: repeat(12, 1fr);
-      gap:18px;
+      gap: 16px 12px;
+      max-width: 1200px; margin: 0 auto;
     }
-    .card{
-      grid-column: span 4;
-      background:var(--card); border:1px solid var(--border);
-      border-radius:14px; padding:18px; box-shadow: var(--shadow);
-      transition: transform .15s ease, border-color .2s ease;
+    .bit{
+      background:#fffef7;
+      border:1px solid var(--border);
+      box-shadow: 4px 4px 0 var(--shadow);
+      padding: 12px 14px;
+      position: relative;
     }
-    .card:hover{ transform: translateY(-2px); border-color: rgba(255,255,255,0.16) }
-    .card h3{ margin:6px 0 8px }
-    .card p{ color:var(--muted); margin:0 }
-    .badge{
-      display:inline-block; padding:6px 10px; border-radius:999px;
-      border:1px solid var(--border); font-size:12px; color:var(--muted);
-      margin-bottom:10px;
-    }
-
-    .split{
-      display:grid; grid-template-columns: 1.2fr 1fr; gap:24px;
-    }
-    .panel{
-      background:var(--card); border:1px solid var(--border); border-radius:14px; padding:20px; box-shadow: var(--shadow);
-    }
-    ul.clean{ list-style:none; padding-left:0; margin:0 }
-    ul.clean li{ padding:8px 0; border-bottom:1px dashed var(--border) }
-    ul.clean li:last-child{ border-bottom:0 }
-
-    /* Footer */
-    footer{
-      border-top:1px solid var(--border); color:var(--muted);
-      padding:30px 20px 60px;
-    }
-    .foot{ max-width:1200px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap }
-    .links a{ color:var(--muted); text-decoration:none; margin-right:14px }
-    .links a:hover{ color:var(--accent) }
-
-    /* Responsive */
-    @media (max-width:1024px){
-      .card{ grid-column: span 6 }
-      .split{ grid-template-columns: 1fr; }
-    }
-    @media (max-width:640px){
-      nav a{ margin-left:14px }
-      .card{ grid-column: span 12 }
-      .hero{ padding-top:100px }
+    /* Tape oben links für „Papier“-Gefühl */
+    .bit::before{
+      content:"";
+      position:absolute; width:74px; height:18px; left:12px; top:-10px;
+      background: repeating-linear-gradient(45deg, var(--tape), var(--tape) 9px, #efe29f 9px, #efe29f 18px);
+      transform: rotate(-6deg);
+      box-shadow: 1px 2px 0 rgba(0,0,0,0.2);
+      opacity: .92;
     }
 
-    /* Reveal Animation (CSS, getriggert via JS) */
-    .reveal{ opacity:0; transform: translateY(14px); transition: opacity .6s ease, transform .6s ease }
-    .reveal.visible{ opacity:1; transform: none }
+    .bit h2, .bit h3{ margin:6px 0 6px; font-size: clamp(18px, 2.6vw, 26px) }
+    .bit p{ margin:0; font-size: clamp(15px, 2.1vw, 18px) }
+
+    /* Nicht zentrieren: mal links, mal rechts, leichte Rotationen */
+    .left  { justify-self:start }
+    .right { justify-self:end }
+    .tilt-1{ transform: rotate(-1.6deg) }
+    .tilt-2{ transform: rotate(1.3deg) }
+    .tilt-3{ transform: rotate(-0.8deg) }
+    .tilt-4{ transform: rotate(2deg) }
+    .scribble{ text-decoration: underline wavy rgba(0,0,0,0.35); text-underline-offset:6px }
+
+    /* Spalten-Spans für „Chaos“ */
+    .span-7{ grid-column: span 7 }
+    .span-5{ grid-column: span 5 }
+    .span-8{ grid-column: span 8 }
+    .span-4{ grid-column: span 4 }
+
+    /* Platzhalterbilder als eingebettete SVGs (echte <img>-Tags optional) */
+    .ph{
+      display:block; width:100%; aspect-ratio: 4 / 3; background:#fff;
+      border:2px solid #111; box-shadow: 4px 4px 0 var(--shadow);
+    }
+
+    /* Textausrichtung nicht einheitlich */
+    .bit :is(h2,h3,p){ text-align:left }
+    .right .bit :is(h2,h3,p){ text-align:right }
+
+    /* Responsiv: mobil alles untereinander, aber Rotationen bleiben */
+    @media (max-width: 920px){
+      .span-7, .span-5, .span-8, .span-4{ grid-column: span 12 }
+      .right{ justify-self:start }
+    }
   </style>
 </head>
-<body data-theme="dark">
-  <a href="#main" class="skip-link">Zum Inhalt springen</a>
-
-  <!-- Subtle background -->
-  <canvas id="bg" aria-hidden="true"></canvas>
-  <div class="gradient-overlay" aria-hidden="true"></div>
-
+<body>
   <header>
-    <div class="nav">
-      <div class="brand">Maximilian Hackl <small>— Engineering × AV</small></div>
-      <div class="toggle-wrap">
-        <nav aria-label="Hauptnavigation">
-          <a href="#work">Projekte</a>
-          <a href="#talks">Talks</a>
-          <a href="#contact">Kontakt</a>
-        </nav>
-        <button class="btn" id="themeBtn" aria-label="Theme umschalten">Theme</button>
-        <button class="btn" id="langBtn" aria-label="Sprache umschalten">EN/DE</button>
-      </div>
+    <h1 class="brand" id="brand">Skizzen & Notizen</h1>
+    <div class="lang">
+      <button class="btn" onclick="setLang('de')">DE</button>
+      <button class="btn" onclick="setLang('en')">EN</button>
     </div>
   </header>
 
-  <main id="main">
-    <!-- Hero -->
-    <section class="hero">
-      <div class="hero-inner reveal">
-        <h1 id="h-title">Autonomous 3D Scanning & Audiovisual Minimalism</h1>
-        <p class="lead" id="h-lead">
-          Roboterbasierte 3D-Datenerfassung, LiDAR/SLAM und Punktwolken-Pipelines für industrielle Digitale Zwillinge —
-          kombiniert mit live-codierten, signalbasierten Visuals.
-        </p>
-        <div class="cta">
-          <a class="btn primary" href="#work" id="cta-primary">Projekte ansehen</a>
-          <a class="btn" href="mailto:ga94wux@mytum.de" id="cta-secondary">Kontakt aufnehmen</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- What I do -->
-    <section class="container reveal">
-      <h2 class="section-title" id="s1-title">Schwerpunkte</h2>
-      <p class="section-sub" id="s1-sub">Von der Sensorik bis zur Integration in Produktions-IT — Ende-zu-Ende.</p>
-      <div class="grid">
-        <article class="card">
-          <span class="badge" id="b1">Industrial</span>
-          <h3 id="c1-h">Autonomous Scanning</h3>
-          <p id="c1-p">ROS/ROS2-Stacks, Sensorfusion, Trajektorien, Qualitätssicherung; AMR/UAV/Spot-Integration.</p>
-        </article>
-        <article class="card">
-          <span class="badge" id="b2">Data</span>
-          <h3 id="c2-h">Point Cloud Pipelines</h3>
-          <p id="c2-p">Voxel-Processing, Segmentierung/Labeling, Metriken, .LAS/.PLY/.NPY, GPU-Beschleunigung.</p>
-        </article>
-        <article class="card">
-          <span class="badge" id="b3">AV</span>
-          <h3 id="c3-h">Live Visuals</h3>
-          <p id="c3-p">Audio-reaktive Raster, Shader-Experimente, minimalistische, frequenzbasierte Bildsysteme.</p>
+  <main>
+    <section class="collage" aria-live="polite">
+      <!-- 1 -->
+      <div class="span-7 left tilt-1">
+        <article class="bit">
+          <h2 id="h1">Projekt-Schnipsel</h2>
+          <p id="p1">Lose Gedanken zu LiDAR, Robotik und AV-Visuals — auf Papier geworfen.</p>
         </article>
       </div>
-    </section>
 
-    <!-- Featured work -->
-    <section id="work" class="container reveal">
-      <h2 class="section-title" id="s2-title">Ausgewählte Projekte</h2>
-      <div class="grid">
-        <article class="card">
-          <span class="badge">FactoryViewer</span>
-          <h3>Cloud Pointcloud Viewer</h3>
-          <p>Globaler Zugriff auf 360°/LiDAR-Daten; Rollen/Rechte, Metriken, Upload-Pipelines.</p>
-        </article>
-        <article class="card">
-          <span class="badge">SLAM</span>
-          <h3>Quality-Controlled MLS/TLS</h3>
-          <p>Voxelige Vollständigkeitsanalyse, Driftkontrolle, Loop-Closures, Berichtsautomatisierung.</p>
-        </article>
-        <article class="card">
-          <span class="badge">AV</span>
-          <h3>Signal-Grid Performance</h3>
-          <p>Audio-getriebene Visuals mit spektraler Modulation; reduzierte, rhythmische Strukturen.</p>
+      <!-- 2 -->
+      <div class="span-5 right tilt-2">
+        <figure class="bit" aria-labelledby="img1-cap">
+          <svg class="ph" viewBox="0 0 800 600" role="img" aria-labelledby="img1-title img1-desc">
+            <title id="img1-title">Platzhalterbild</title>
+            <desc id="img1-desc">Skizzenhaftes X-Muster</desc>
+            <rect width="100%" height="100%" fill="#ffffff"/>
+            <path d="M30 560 L770 40" stroke="#000" stroke-width="6" stroke-dasharray="12 10"/>
+            <path d="M30 40 L770 560" stroke="#000" stroke-width="6" stroke-dasharray="10 12"/>
+            <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="48" font-family="Courier New" fill="#000">PLATZHALTER</text>
+          </svg>
+          <figcaption id="img1-cap" style="display:none">Platzhalterbild 1</figcaption>
+        </figure>
+      </div>
+
+      <!-- 3 -->
+      <div class="span-4 left tilt-3">
+        <article class="bit">
+          <h3 id="h2" class="scribble">Punktwolken</h3>
+          <p id="p2">Voxel, Labeling, Vollständigkeit. Notizen, die aussehen wie EKG-Linien.</p>
         </article>
       </div>
-    </section>
 
-    <!-- Talks / Publications -->
-    <section id="talks" class="container reveal">
-      <h2 class="section-title" id="s3-title">Talks & Publikationen</h2>
-      <div class="split">
-        <div class="panel">
-          <h3 id="t1">Aktuell</h3>
-          <ul class="clean" id="talk-list">
-            <li>„Quality-Controlled Mobile Laser Scanning Towards the Digital Twin“ — Innovationsmeeting PI-D</li>
-            <li>Vollständigkeitsanalyse von Punktwolken (Paper in Vorbereitung)</li>
-            <li>Autonomous 3D Scanning: Advancements, Challenges, and Integration Strategies (Dissertation)</li>
-          </ul>
-        </div>
-        <div class="panel">
-          <h3 id="t2">Themen</h3>
-          <ul class="clean" id="topic-list">
-            <li>LiDAR/SLAM • Sensorphysik • Graphbasierte Optimierung</li>
-            <li>Digitale Zwillinge • Produktionsintegration • DevOps</li>
-            <li>Audio-Visuelle Systeme • Signalfluss • Shader</li>
-          </ul>
-        </div>
+      <!-- 4 -->
+      <div class="span-8 right tilt-4">
+        <figure class="bit" aria-labelledby="img2-cap">
+          <svg class="ph" viewBox="0 0 800 600" role="img" aria-labelledby="img2-title img2-desc">
+            <title id="img2-title">Platzhalterbild</title>
+            <desc id="img2-desc">Scribble-Kreise</desc>
+            <rect width="100%" height="100%" fill="#ffffff"/>
+            <circle cx="200" cy="300" r="140" fill="none" stroke="#000" stroke-width="5" stroke-dasharray="5 9"/>
+            <circle cx="600" cy="300" r="110" fill="none" stroke="#000" stroke-width="5" stroke-dasharray="9 7"/>
+            <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="48" font-family="Courier New" fill="#000">PLATZHALTER</text>
+          </svg>
+          <figcaption id="img2-cap" style="display:none">Platzhalterbild 2</figcaption>
+        </figure>
       </div>
-    </section>
 
-    <!-- Contact -->
-    <section id="contact" class="container reveal">
-      <h2 class="section-title" id="s4-title">Kontakt</h2>
-      <p class="section-sub" id="s4-sub">Für Kollaboration, Vorträge oder Projekte.</p>
-      <form class="split" onsubmit="event.preventDefault(); alert(msg('thanks')); this.reset();">
-        <div class="panel">
-          <label for="name" id="lbl-name">Name</label><br/>
-          <input id="name" name="name" required style="width:100%; padding:12px; border-radius:10px; border:1px solid var(--border); background:var(--card); color:var(--fg); margin-top:6px">
-        </div>
-        <div class="panel">
-          <label for="email" id="lbl-email">E-Mail</label><br/>
-          <input id="email" name="email" type="email" required style="width:100%; padding:12px; border-radius:10px; border:1px solid var(--border); background:var(--card); color:var(--fg); margin-top:6px">
-        </div>
-        <div class="panel" style="grid-column: 1 / -1;">
-          <label for="message" id="lbl-msg">Nachricht</label><br/>
-          <textarea id="message" name="message" rows="6" required style="width:100%; padding:12px; border-radius:10px; border:1px solid var(--border); background:var(--card); color:var(--fg); margin-top:6px"></textarea>
-          <div style="margin-top:14px; display:flex; gap:10px">
-            <button class="btn primary" type="submit" id="btn-send">Absenden</button>
-            <a class="btn" href="mailto:ga94wux@mytum.de" id="btn-mail">Direkt per Mail</a>
-          </div>
-        </div>
-      </form>
+      <!-- 5 -->
+      <div class="span-5 left tilt-2">
+        <article class="bit">
+          <h3 id="h3">AV-Ästhetik</h3>
+          <p id="p3">Reduktion, Wiederholung, minimale Frequenzräume, wackelige Linien.</p>
+        </article>
+      </div>
+
+      <!-- 6 -->
+      <div class="span-7 right tilt-1">
+        <figure class="bit" aria-labelledby="img3-cap">
+          <svg class="ph" viewBox="0 0 800 600" role="img" aria-labelledby="img3-title img3-desc">
+            <title id="img3-title">Platzhalterbild</title>
+            <desc id="img3-desc">Zickzack & Rahmen</desc>
+            <rect x="10" y="10" width="780" height="580" fill="none" stroke="#000" stroke-width="6"/>
+            <polyline points="40,520 120,420 200,520 280,420 360,520 440,420 520,520 600,420 680,520 760,420"
+                      fill="none" stroke="#000" stroke-width="6" stroke-dasharray="8 8"/>
+            <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="48" font-family="Courier New" fill="#000">PLATZHALTER</text>
+          </svg>
+          <figcaption id="img3-cap" style="display:none">Platzhalterbild 3</figcaption>
+        </figure>
+      </div>
+
+      <!-- 7 -->
+      <div class="span-8 left tilt-3">
+        <article class="bit">
+          <h3 id="h4">Kontakt</h3>
+          <p id="p4">Schick mir eine Mail: <a href="mailto:ga94wux@mytum.de">ga94wux@mytum.de</a></p>
+        </article>
+      </div>
+
+      <!-- 8 -->
+      <div class="span-4 right tilt-4">
+        <figure class="bit" aria-labelledby="img4-cap">
+          <svg class="ph" viewBox="0 0 800 600" role="img" aria-labelledby="img4-title img4-desc">
+            <title id="img4-title">Platzhalterbild</title>
+            <desc id="img4-desc">Schraffur und Stempel</desc>
+            <rect width="100%" height="100%" fill="#ffffff"/>
+            <path d="M40 560 L760 560" stroke="#000" stroke-width="6" stroke-dasharray="2 10"/>
+            <path d="M60 540 L740 540" stroke="#000" stroke-width="6" stroke-dasharray="2 10"/>
+            <circle cx="640" cy="120" r="70" fill="none" stroke="#000" stroke-width="6"/>
+            <text x="640" y="125" text-anchor="middle" font-size="28" font-family="Courier New" fill="#000">OK</text>
+            <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="48" font-family="Courier New" fill="#000">PLATZHALTER</text>
+          </svg>
+          <figcaption id="img4-cap" style="display:none">Platzhalterbild 4</figcaption>
+        </figure>
+      </div>
     </section>
   </main>
 
-  <footer>
-    <div class="foot">
-      <div>© <span id="year"></span> Maximilian Hackl</div>
-      <div class="links">
-        <a href="#work">Projekte</a>
-        <a href="#talks">Talks</a>
-        <a href="#contact">Kontakt</a>
-      </div>
-    </div>
-  </footer>
-
   <script>
-    // -----------------------------
-    // Lightweight animated canvas: moving signal lines
-    // -----------------------------
-    const canvas = document.getElementById('bg');
-    const ctx = canvas.getContext('2d');
-    let w, h, dpr, lines;
+    // ====== Simple i18n (DE/EN) mit Persistenz ======
+    const copy = {
+      de: {
+        brand: "Skizzen & Notizen",
+        h1: "Projekt-Schnipsel",
+        p1: "Lose Gedanken zu LiDAR, Robotik und AV-Visuals — auf Papier geworfen.",
+        h2: "Punktwolken",
+        p2: "Voxel, Labeling, Vollständigkeit. Notizen, die aussehen wie EKG-Linien.",
+        h3: "AV-Ästhetik",
+        p3: "Reduktion, Wiederholung, minimale Frequenzräume, wackelige Linien.",
+        h4: "Kontakt",
+        p4: 'Schick mir eine Mail: <a href="mailto:ga94wux@mytum.de">ga94wux@mytum.de</a>'
+      },
+      en: {
+        brand: "Sketches & Notes",
+        h1: "Project Scraps",
+        p1: "Loose thoughts on LiDAR, robotics and AV visuals — tossed onto paper.",
+        h2: "Point Clouds",
+        p2: "Voxels, labeling, completeness. Notes that look like ECG lines.",
+        h3: "AV Aesthetics",
+        p3: "Reduction, repetition, minimal frequency spaces, wobbly lines.",
+        h4: "Contact",
+        p4: 'Send me an email: <a href="mailto:ga94wux@mytum.de">ga94wux@mytum.de</a>'
+      }
+    };
 
-    function resize(){
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
-      w = canvas.width = Math.floor(innerWidth * dpr);
-      h = canvas.height = Math.floor(innerHeight * dpr);
-      canvas.style.width = innerWidth + 'px';
-      canvas.style.height = innerHeight + 'px';
-      initLines();
+    function setLang(lang){
+      localStorage.setItem('lang', lang);
+      const t = copy[lang] || copy.de;
+      document.getElementById('brand').textContent = t.brand;
+      document.getElementById('h1').textContent = t.h1;
+      document.getElementById('p1').textContent = t.p1;
+      document.getElementById('h2').textContent = t.h2;
+      document.getElementById('p2').textContent = t.p2;
+      document.getElementById('h3').textContent = t.h3;
+      document.getElementById('p3').textContent = t.p3;
+      document.getElementById('h4').textContent = t.h4;
+      document.getElementById('p4').innerHTML = t.p4;
+      document.documentElement.lang = (lang === 'en' ? 'en' : 'de');
     }
-
-    function initLines(){
-      const count = Math.max(16, Math.floor(innerWidth / 90));
-      lines = new Array(count).fill(0).map((_,i)=>({
-        y: (h/(count+1)) * (i+1),
-        phase: Math.random()*Math.PI*2,
-        speed: 0.002 + Math.random()*0.003,
-        amp: (8 + Math.random()*16) * dpr,
-        k: 0.002 + Math.random()*0.004
-      }));
-    }
-
-    function draw(t){
-      ctx.clearRect(0,0,w,h);
-      for(const L of lines){
-        L.phase += L.speed * (1 + Math.sin(t*0.0002)*0.2);
-       
+    (function init(){
+      const saved = localStorage.getItem('lang') || 'de';
+      setLang(saved);
+    })();
+  </script>
+</body>
+</html>
