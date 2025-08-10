@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Maximilian Hackl – VJ Visualizer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: transparent;
+      font-family: 'Inter', sans-serif;
+      color: white;
+    }
+
+    body {
+      background-color: rgba(0, 0, 0, 0.9);
+    }
+
+    canvas {
+      display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      background: transparent;
+    }
+
+    .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+    }
+
+    .title {
+      font-size: 3em;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      font-size: 1.2em;
+      color: #ccc;
+    }
+
+    .icons {
+      margin-top: 20px;
+    }
+
+    .icons a {
+      color: white;
+      margin: 0 10px;
+      font-size: 1.5em;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .icons a:hover {
+      color: gold;
+    }
+
+    .divider {
+      height: 1px;
+      background: rgba(255, 255, 255, 0.2);
+      margin: 0 10%;
+    }
+
+    section {
+      padding: 80px 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .lang-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 10;
+    }
+
+    .lang-toggle button {
+      background: none;
+      border: 1px solid white;
+      color: white;
+      padding: 5px 10px;
+      margin-left: 5px;
+      cursor: pointer;
+      font-size: 0.9em;
+      transition: background 0.2s;
+    }
+
+    .lang-toggle button:hover {
+      background: white;
+      color: black;
+    }
+  </style>
+
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <!-- Language Toggle -->
+  <div class="lang-toggle">
+    <button onclick="setLanguage('en')">EN</button>
+    <button onclick="setLanguage('de')">DE</button>
+  </div>
+
+  <!-- Hero Section -->
+  <div class="hero">
+    <div class="title" id="title">Maximilian Hackl</div>
+    <div class="subtitle" id="subtitle">Live VJ Grid Visualizer</div>
+    <div class="icons">
+      <a href="https://github.com/ga94wux/vjing_grid_visualizer" target="_blank"><i class="fab fa-github"></i></a>
+      <a href="mailto:ga94wux@mytum.de"><i class="fas fa-envelope"></i></a>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Section 1 -->
+  <section>
+    <h2 id="section1-title">About the Project</h2>
+    <p id="section1-body">An homage to early electronic sound art. This visual composition translates signal flow, wavelengths, and modulated amplitudes into an abstracted grid field – inspired by oscilloscopes, analog synthesizer design, and the aesthetics of minimal frequency space. Reduction, repetition, transformation: The web version emulates a rhythmically breathing structure – a digital instrument for visualizing motion in space.</p>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- Section 2 -->
+  <section>
+    <h2 id="section2-title">Code & Intention</h2>
+    <p id="section2-body">The underlying system is based on a live visualization architecture using OpenGL – driven by frequency analysis and time-based wave simulation. The web version is implemented in Three.js to provide immersive access through the browser. Full source code is available on GitHub – open for interpretation, modification, and extension in the spirit of modular sound and image systems.</p>
+    <a href="https://github.com/ga94wux/vjing_grid_visualizer" target="_blank">🔗 GitHub Repository</a>
+  </section>
+
+  <!-- Background Canvas -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
+  <script>
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 8, 50);
+    camera.lookAt(0, 0, 0);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    const gridSize = 30, spacing = 1.0;
+    const amplitude = 3.0, frequency = 1.0, speed = 2.0;
+
+    const geometry = new THREE.BufferGeometry();
+    const positions = [], indices = [];
+
+    for (let i = 0; i < gridSize; i++) {
+      for (let j = 0; j < gridSize; j++) {
+        const x = (i - gridSize / 2) * spacing;
+        const z = (j - gridSize / 2) * spacing;
+        positions.push(x, 0, z);
+      }
+    }
+
+    for (let i = 0; i < gridSize - 1; i++) {
+      for (let j = 0; j < gridSize - 1; j++) {
+        const a = i * gridSize + j;
+        indices.push(a, a + 1, a, a + gridSize);
+      }
+    }
+
+    geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+    geometry.setIndex(indices);
+
+    const material = new THREE.LineBasicMaterial({ color: 0xffff00 });
+    const mesh = new THREE.LineSegments(geometry, material);
+    scene.add(mesh);
+
+    const clock = new THREE.Clock();
+    function animate() {
+      requestAnimationFrame(animate);
+      const t = clock.getElapsedTime() * speed;
+      const pos = geometry.attributes.position;
+
+      for (let i = 0; i < pos.count; i++) {
+        const x = pos.getX(i);
+        const z = pos.getZ(i);
+        const dist = Math.sqrt(x * x + z * z);
+        const y = amplitude * Math.sin(frequency * dist - t);
+        pos.setY(i, y);
+      }
+
+      pos.needsUpdate = true;
+
+      const hue = (t * 10) % 360;
+      const rgb = hslToRgb(hue / 360, 1, 0.5);
+      material.color.setRGB(rgb[0], rgb[1], rgb[2]);
+
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    function hslToRgb(h, s, l) {
+      let r, g, b;
+      if (s == 0) { r = g = b = l; }
+      else {
+        const hue2rgb = (p, q, t) => {
+          if (t < 0) t += 1;
+          if (t > 1) t -= 1;
+          if (t < 1/6) return p + (q - p) * 6 * t;
+          if (t < 1/2) return q;
+          if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+          return p;
+        };
+        const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+        const p = 2 * l - q;
+        r = hue2rgb(p, q, h + 1/3);
+        g = hue2rgb(p, q, h);
+        b = hue2rgb(p, q, h - 1/3);
+      }
+      return [r, g, b];
+    }
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    function setLanguage(lang) {
+      const content = {
+        en: {
+          title: "Maximilian Hackl",
+          subtitle: "Live VJ Grid Visualizer",
+          section1Title: "About the Project",
+          section1Body: "An homage to early electronic sound art. This visual composition translates signal flow, wavelengths, and modulated amplitudes into an abstracted grid field – inspired by oscilloscopes, analog synthesizer design, and the aesthetics of minimal frequency space. Reduction, repetition, transformation: The web version emulates a rhythmically breathing structure – a digital instrument for visualizing motion in space.",
+          section2Title: "Code & Intention",
+          section2Body: "The underlying system is based on a live visualization architecture using OpenGL – driven by frequency analysis and time-based wave simulation. The web version is implemented in Three.js to provide immersive access through the browser. Full source code is available on GitHub – open for interpretation, modification, and extension in the spirit of modular sound and image systems."
+        },
+        de: {
+          title: "Maximilian Hackl",
+          subtitle: "Live-VJ-Gitter-Visualizer",
+          section1Title: "Über das Projekt",
+          section1Body: "Eine Hommage an frühe elektronische Klangkunst. Diese visuelle Komposition übersetzt Signalflüsse, Wellenlängen und modulierte Amplituden in ein abstrahiertes Gitterfeld – inspiriert von Oszilloskopen, analogem Synthesizer-Design und der Ästhetik minimalistisch strukturierter Frequenzräume. Reduktion, Wiederholung, Transformation: Die Web-Version emuliert eine rhythmisch atmende Struktur – ein digitales Instrument zur Visualisierung von Bewegung im Raum.",
+          section2Title: "Code & Intention",
+          section2Body: "Das zugrundeliegende System basiert auf einer OpenGL-Architektur für Live-Visualisierung – gesteuert durch Frequenzanalyse und zeitbasierte Wellensimulation. Die Webumsetzung in Three.js ermöglicht einen immersiven Zugang über den Browser. Der vollständige Quellcode ist auf GitHub verfügbar – offen für Interpretation, Modifikation und Erweiterung im Geist modularer Klang- und Bildsysteme."
+        }
+      };
+
+      const t = content[lang];
+      document.getElementById('title').innerText = t.title;
+      document.getElementById('subtitle').innerText = t.subtitle;
+      document.getElementById('section1-title').innerText = t.section1Title;
+      document.getElementById('section1-body').innerText = t.section1Body;
+      document.getElementById('section2-title').innerText = t.section2Title;
+      document.getElementById('section2-body').innerText = t.section2Body;
+    }
+  </script>
+</body>
+</html>
