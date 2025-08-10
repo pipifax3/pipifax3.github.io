@@ -60,7 +60,7 @@ header{
 }
 .brand{ margin:0; font-size:clamp(22px,4.5vw,40px); font-family:"Permanent Marker",cursive; transform:rotate(-1.2deg);
   text-decoration:underline wavy rgba(0,0,0,.35); text-underline-offset:6px; }
-.controls{ display:flex; gap:8px; align-items:center }
+.controls{ display:flex; gap:8px; align-items:center; flex-wrap:wrap }
 .btn{ border:1px dashed rgba(0,0,0,.25); background:var(--nav); color:var(--ink); padding:6px 10px; border-radius:7px; cursor:pointer; font:inherit;
   box-shadow:2px 2px 0 var(--shadow); transform:rotate(.6deg);}
 .btn:hover{ transform:rotate(.6deg) translateY(-1px) }
@@ -74,11 +74,16 @@ main{ padding:20px 12px 70px }
 .grid{ display:grid; gap:16px 14px; grid-template-columns:repeat(12,1fr) }
 .span-4{grid-column:span 4}.span-5{grid-column:span 5}.span-6{grid-column:span 6}.span-7{grid-column:span 7}
 .left{justify-self:start}.right{justify-self:end}
-.sticker{ position:relative; padding:14px 16px; border:2px solid var(--border); box-shadow:4px 4px 0 var(--shadow);
-  background:var(--s5); }
+.sticker, .post, .cell{
+  position:relative; padding:14px 16px; border:2px solid var(--border); box-shadow:4px 4px 0 var(--shadow);
+  background:var(--s5);
+}
+/* Sticker-Farben */
 .s1{background:var(--s1)} .s2{background:var(--s2)} .s3{background:var(--s3)} .s4{background:var(--s4)}
-.s6{background:var(--s6)} .s7{background:var(--s7)} .s8{background:var(--s8)} .s9{background:var(--s9)} .s10{background:var(--s10)}
+.s5{background:var(--s5)} .s6{background:var(--s6)} .s7{background:var(--s7)} .s8{background:var(--s8)} .s9{background:var(--s9)} .s10{background:var(--s10)}
+/* Tilt */
 .tilt-a{ transform:rotate(-2deg) } .tilt-b{ transform:rotate(1.6deg) } .tilt-c{ transform:rotate(-0.9deg) } .tilt-d{ transform:rotate(2.2deg) }
+/* Deko */
 .pin::after{ content:""; position:absolute; width:14px; height:14px; right:16px; top:10px;
   background:radial-gradient(circle at 35% 35%, #fff 0 30%, var(--pin) 31% 100%);
   border:1px solid var(--pin-dark); border-radius:50%; box-shadow:1px 1px 0 rgba(0,0,0,.25); }
@@ -93,7 +98,7 @@ main{ padding:20px 12px 70px }
     </svg>'); background-size:cover; transform:rotate(-7deg); box-shadow:1px 2px 0 rgba(0,0,0,.2); }
 .dogear::after{ content:""; position:absolute; right:0; top:0; width:0; height:0; border-left:18px solid transparent; border-bottom:18px solid rgba(0,0,0,.18) }
 
-/* Fonts – jeder Header anders */
+/* Fonts – Header alle verschieden */
 .h1{ font-family:"Amatic SC",cursive }
 .h2{ font-family:"Permanent Marker",cursive }
 .h3{ font-family:"Gloria Hallelujah",cursive }
@@ -108,25 +113,22 @@ main{ padding:20px 12px 70px }
 .big{ font-size:clamp(20px,3.2vw,28px) }
 .xl { font-size:clamp(26px,6vw,44px) }
 
-/* Blog */
-.blog{ display:grid; gap:18px; grid-template-columns:repeat(12,1fr) }
-.post{ grid-column:span 6; background:var(--s10); border:2px solid var(--border); box-shadow:4px 4px 0 var(--shadow); padding:16px; position:relative }
+/* Blog overrides */
+.post{ background:var(--s10) }
 .post .title{ margin:0 0 8px 0 }
 .post .meta{ font-family:"Handlee",cursive; opacity:.8; margin:0 0 10px 0 }
 .post .excerpt{ margin:0 }
-.post.tilt-a{ transform: rotate(-1.2deg) } .post.tilt-b{ transform: rotate(1deg) }
-@media (max-width:980px){ .post{ grid-column:span 12 } }
 
-/* Galerie */
+/* Galerie Grid */
 .gallery-grid{ display:grid; gap:12px; grid-template-columns:repeat(12,1fr) }
-.cell{ grid-column:span 3; position:relative; background:#fff; border:2px solid #111; box-shadow:3px 3px 0 var(--shadow) }
+.cell{ grid-column:span 3; background:#fff }
 .cell::after{content:""; display:block; padding-bottom:75%}
 .cell .inner{ position:absolute; inset:0; background-size:cover; background-position:center }
 .caption{ padding:8px; font-family:"Architects Daughter",cursive; border-top:1px dashed rgba(0,0,0,.18) }
 @media (max-width:1024px){ .cell{ grid-column:span 4 } }
 @media (max-width:640px){ .cell{ grid-column:span 6 } }
 
-/* ASCII-Klappstuhl neu */
+/* ASCII-Klappstuhl */
 pre.ascii-chair{
   font-family: monospace; line-height:1; white-space:pre;
   background:#111; color:#0f0; padding:10px; overflow:auto; border:1px dashed #0f0;
@@ -142,6 +144,7 @@ pre.ascii-chair{
     <button class="btn tab" data-layer="gallery" id="tab-gallery">Galerie</button>
     <button class="btn" onclick="setLang('de')">DE</button>
     <button class="btn" onclick="setLang('en')">EN</button>
+    <button class="btn" id="resetBtn">Reset Positionen</button>
   </div>
 </header>
 
@@ -150,37 +153,36 @@ pre.ascii-chair{
   <section class="layer active" id="layer-board">
     <div class="max">
       <div class="grid">
-        <!-- Titel / Widmung kurz -->
         <div class="span-7 left">
-          <article class="sticker s8 tape tilt-a">
+          <article class="sticker s8 tape tilt-a" data-id="b-title">
             <h2 class="h1 xl">Für Amelie — Amselie</h2>
             <p class="h6 mid">Pinwand für alles Echtes. Ohne Filter.</p>
           </article>
         </div>
 
-        <!-- Notizzettel: Zitate einzeln -->
-        <div class="span-5 right"><article class="sticker s6 pin tilt-b"><h3 class="h2 big">„Amelie malt toll“</h3></article></div>
-        <div class="span-4 left"><article class="sticker s1 dogear tilt-c"><h3 class="h3 big">„Sie drückt sich gern in der Kunst aus und ist rebellisch“</h3></article></div>
-        <div class="span-6 right"><article class="sticker s2 tape tilt-d"><h3 class="h4 big">„Amseli ist die beste amseli der welt“</h3></article></div>
-        <div class="span-5 left"><article class="sticker s9 dogear tilt-b"><h3 class="h5 big">„Wenn amelie ein Tier wäre wäre sie ein affe“</h3></article></div>
-        <div class="span-7 right"><article class="sticker s7 pin tilt-a"><h3 class="h6 big">„Amselie übertrifft jeden in Kreativität“</h3></article></div>
-        <div class="span-6 left"><article class="sticker s4 tape tilt-c"><h3 class="h7 big">„Sie macht immer ihr eigenes ding.“</h3></article></div>
-        <div class="span-6 right"><article class="sticker s10 dogear tilt-d"><h3 class="h8 big">„Amselie gammelt wie ne echte gammelie“</h3></article></div>
-        <div class="span-4 left"><article class="sticker s3 pin tilt-b"><h3 class="h2 big">„Amselie die Amsel“</h3></article></div>
-        <div class="span-5 right"><article class="sticker s6 tape tilt-a"><h3 class="h3 big">„Spikey, Cunty, Amely“</h3></article></div>
-        <div class="span-7 left"><article class="sticker s1 dogear tilt-c"><h3 class="h4 big">„Eat Sleep Amelie Repeat“</h3></article></div>
-        <div class="span-5 right"><article class="sticker s8 pin tilt-d"><h3 class="h5 big">„Lebensfrohe oboe“</h3></article></div>
-        <div class="span-7 left"><article class="sticker s2 tape tilt-b"><h3 class="h6 big">„Der schönste Rubyn im Schmuckkasterl“</h3></article></div>
-        <div class="span-6 right"><article class="sticker s9 dogear tilt-a"><h3 class="h7 big">„Amselie ist ein lufttier“</h3></article></div>
-        <div class="span-6 left"><article class="sticker s4 pin tilt-c"><h3 class="h8 big">„Mein Kopf ist leer denk denk denken kann ich nicht mehr“</h3></article></div>
-        <div class="span-7 right"><article class="sticker s3 tape tilt-d"><h3 class="h1 big">„Amelie Emma Roberta Antonia Brauer!“</h3></article></div>
-        <div class="span-5 left"><article class="sticker s7 dogear tilt-b"><h3 class="h2 big">„Amelie hat fast Jawline“</h3></article></div>
-        <div class="span-5 right"><article class="sticker s10 pin tilt-a"><h3 class="h3 big">„Amelie Schwammelie“</h3></article></div>
-        <div class="span-7 left"><article class="sticker s6 tape tilt-c"><h3 class="h4 big">„Amelie is einfach da Wahn!“</h3></article></div>
+        <!-- Zitate als einzelne Zettel -->
+        <div class="span-5 right"><article class="sticker s6 pin tilt-b" data-id="b-01"><h3 class="h2 big">„Amelie malt toll“</h3></article></div>
+        <div class="span-4 left"><article class="sticker s1 dogear tilt-c" data-id="b-02"><h3 class="h3 big">„Sie drückt sich gern in der Kunst aus und ist rebellisch“</h3></article></div>
+        <div class="span-6 right"><article class="sticker s2 tape tilt-d" data-id="b-03"><h3 class="h4 big">„Amseli ist die beste amseli der welt“</h3></article></div>
+        <div class="span-5 left"><article class="sticker s9 dogear tilt-b" data-id="b-04"><h3 class="h5 big">„Wenn amelie ein Tier wäre wäre sie ein affe“</h3></article></div>
+        <div class="span-7 right"><article class="sticker s7 pin tilt-a" data-id="b-05"><h3 class="h6 big">„Amselie übertrifft jeden in Kreativität“</h3></article></div>
+        <div class="span-6 left"><article class="sticker s4 tape tilt-c" data-id="b-06"><h3 class="h7 big">„Sie macht immer ihr eigenes ding.“</h3></article></div>
+        <div class="span-6 right"><article class="sticker s10 dogear tilt-d" data-id="b-07"><h3 class="h8 big">„Amselie gammelt wie ne echte gammelie“</h3></article></div>
+        <div class="span-4 left"><article class="sticker s3 pin tilt-b" data-id="b-08"><h3 class="h2 big">„Amselie die Amsel“</h3></article></div>
+        <div class="span-5 right"><article class="sticker s6 tape tilt-a" data-id="b-09"><h3 class="h3 big">„Spikey, Cunty, Amely“</h3></article></div>
+        <div class="span-7 left"><article class="sticker s1 dogear tilt-c" data-id="b-10"><h3 class="h4 big">„Eat Sleep Amelie Repeat“</h3></article></div>
+        <div class="span-5 right"><article class="sticker s8 pin tilt-d" data-id="b-11"><h3 class="h5 big">„Lebensfrohe oboe“</h3></article></div>
+        <div class="span-7 left"><article class="sticker s2 tape tilt-b" data-id="b-12"><h3 class="h6 big">„Der schönste Rubyn im Schmuckkasterl“</h3></article></div>
+        <div class="span-6 right"><article class="sticker s9 dogear tilt-a" data-id="b-13"><h3 class="h7 big">„Amselie ist ein lufttier“</h3></article></div>
+        <div class="span-6 left"><article class="sticker s4 pin tilt-c" data-id="b-14"><h3 class="h8 big">„Mein Kopf ist leer denk denk denken kann ich nicht mehr“</h3></article></div>
+        <div class="span-7 right"><article class="sticker s3 tape tilt-d" data-id="b-15"><h3 class="h1 big">„Amelie Emma Roberta Antonia Brauer!“</h3></article></div>
+        <div class="span-5 left"><article class="sticker s7 dogear tilt-b" data-id="b-16"><h3 class="h2 big">„Amelie hat fast Jawline“</h3></article></div>
+        <div class="span-5 right"><article class="sticker s10 pin tilt-a" data-id="b-17"><h3 class="h3 big">„Amelie Schwammelie“</h3></article></div>
+        <div class="span-7 left"><article class="sticker s6 tape tilt-c" data-id="b-18"><h3 class="h4 big">„Amelie is einfach da Wahn!“</h3></article></div>
 
-        <!-- ASCII-Klappstuhl (neue Version) -->
+        <!-- ASCII-Klappstuhl -->
         <div class="span-6 right">
-          <article class="sticker s5 pin tilt-b">
+          <article class="sticker s5 pin tilt-b" data-id="b-chair">
             <h3 class="h5 big">TXT — Klappstuhl</h3>
             <pre class="ascii-chair">
   ______
@@ -197,30 +199,30 @@ pre.ascii-chair{
     </div>
   </section>
 
-  <!-- LAYER 2: BLOG (kurze, zitratige Notizen) -->
+  <!-- LAYER 2: BLOG -->
   <section class="layer" id="layer-blog">
     <div class="max blog">
-      <article class="post tilt-a">
+      <article class="post tilt-a" data-id="l2-a">
         <h2 class="title h1">Notizbuch #1</h2>
-        <p class="meta" id="b-m1">aus dem Freundeskreis</p>
+        <p class="meta">aus dem Freundeskreis</p>
         <p class="excerpt h6">„Amselie übertrifft jeden in Kreativität.“</p>
         <p class="excerpt h6">„Sie macht immer ihr eigenes ding.“</p>
       </article>
 
-      <article class="post tilt-b">
+      <article class="post tilt-b" data-id="l2-b">
         <h2 class="title h2">Notizbuch #2</h2>
         <p class="meta">random thoughts</p>
         <p class="excerpt h5">„Eat Sleep Amelie Repeat“ · „Amselie die Amsel“</p>
       </article>
 
-      <article class="post tilt-b">
+      <article class="post tilt-b" data-id="l2-c">
         <h2 class="title h4">Notizbuch #3</h2>
         <p class="meta">klebezettel</p>
         <p class="excerpt h8">„Der schönste Rubyn im Schmuckkasterl.“</p>
         <p class="excerpt h8">„Lebensfrohe oboe.“</p>
       </article>
 
-      <article class="post tilt-a">
+      <article class="post tilt-a" data-id="l2-d">
         <h2 class="title h5">Notizbuch #4</h2>
         <p class="meta">nachts</p>
         <p class="excerpt h7">„Mein Kopf ist leer denk denk denken kann ich nicht mehr.“</p>
@@ -228,37 +230,37 @@ pre.ascii-chair{
     </div>
   </section>
 
-  <!-- LAYER 3: GALERIE (Platzhalter + Zetteltexte) -->
+  <!-- LAYER 3: GALERIE -->
   <section class="layer" id="layer-gallery">
     <div class="max">
-      <div class="sticker s7 tape tilt-b" style="margin-bottom:16px">
+      <div class="sticker s7 tape tilt-b" style="margin-bottom:16px" data-id="l3-intro">
         <h3 class="h3 big">Galerie</h3>
-        <p class="h6 mid">Wenn Bilder kommen, hängen wir sie hierhin. Bis dahin: Platzhalter + Zettel.</p>
+        <p class="h6 mid">Platzhalter & Zettel bis echte Bilder kommen.</p>
       </div>
 
       <div class="gallery-grid">
-        <div class="cell tilt-a">
+        <div class="cell tilt-a" data-id="g-1">
           <div class="inner" style="background:#fff url('data:image/svg+xml;utf8, \
             <svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 600%22><rect width=%22800%22 height=%22600%22 fill=%23ffffff/> \
             <rect x=%2260%22 y=%2260%22 width=%22680%22 height=%22480%22 fill=none stroke=%23000 stroke-width=%226%22/></svg>') center/cover no-repeat"></div>
           <div class="caption h6">„Amseli ist die beste amseli der welt.“</div>
         </div>
 
-        <div class="cell tilt-c">
+        <div class="cell tilt-c" data-id="g-2">
           <div class="inner" style="background:#fff url('data:image/svg+xml;utf8, \
             <svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 600%22><rect width=%22800%22 height=%22600%22 fill=%23ffffff/> \
             <circle cx=%22400%22 cy=%22300%22 r=%22180%22 fill=none stroke=%23000 stroke-width=%226%22 stroke-dasharray=%228 10%22/></svg>') center/cover no-repeat"></div>
           <div class="caption h6">„Amselie ist ein lufttier.“</div>
         </div>
 
-        <div class="cell tilt-d">
+        <div class="cell tilt-d" data-id="g-3">
           <div class="inner" style="background:#fff url('data:image/svg+xml;utf8, \
             <svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 600%22><rect width=%22800%22 height=%22600%22 fill=%23ffffff/> \
             <polyline points=%2260,520 140,420 220,520 300,420 380,520 460,420 540,520 620,420 700,520%22 fill=none stroke=%23000 stroke-width=%226%22 stroke-dasharray=%226 10%22/></svg>') center/cover no-repeat"></div>
           <div class="caption h6">„Spikey, Cunty, Amely.“</div>
         </div>
 
-        <div class="cell tilt-b">
+        <div class="cell tilt-b" data-id="g-4">
           <div class="inner" style="background:#fff url('data:image/svg+xml;utf8, \
             <svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 600%22><rect width=%22800%22 height=%22600%22 fill=%23ffffff/> \
             <path d=%22M60 480 L740 180%22 stroke=%23000 stroke-width=%226%22 stroke-dasharray=%2210 12%22 fill=none/></svg>') center/cover no-repeat"></div>
@@ -270,6 +272,7 @@ pre.ascii-chair{
 </main>
 
 <script>
+/* ===== Tabs + Sprache (Labels only) ===== */
 const T = {
   de: { brand:"Amselie — Board · Blog · Galerie", tabs:{board:"Board",blog:"Blog",gallery:"Galerie"} },
   en: { brand:"Amselie — Board · Blog · Gallery", tabs:{board:"Board",blog:"Blog",gallery:"Gallery"} }
@@ -289,10 +292,101 @@ function setLayer(id){
   document.getElementById('layer-'+id).classList.add('active');
   tabs.forEach(t=>t.classList.toggle('active', t.dataset.layer===id));
   localStorage.setItem('layer', id);
+  initDragForActiveLayer(); // (re)bind for visible layer
 }
 tabs.forEach(t=>t.addEventListener('click', ()=>setLayer(t.dataset.layer)));
 setLang(localStorage.getItem('lang')||'de');
 setLayer(localStorage.getItem('layer')||'board');
+
+/* ===== Drag & Drop mit Persistenz (per data-id) ===== */
+const STORAGE_KEY = 'amselie_positions_v1';
+
+function getPositions(){
+  try{ return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }catch(e){ return {}; }
+}
+function setPositions(map){ localStorage.setItem(STORAGE_KEY, JSON.stringify(map)); }
+
+function saveTransform(layerId, el){
+  const id = el.dataset.id; if(!id) return;
+  const map = getPositions();
+  if(!map[layerId]) map[layerId]={};
+  map[layerId][id] = el.style.transform || '';
+  setPositions(map);
+}
+function loadTransformsFor(layerId){
+  const map = getPositions()[layerId] || {};
+  Object.entries(map).forEach(([id, tfm])=>{
+    const el = document.querySelector(`#layer-${layerId} [data-id="${id}"]`);
+    if(el) el.style.transform = tfm;
+  });
+}
+function resetAll(){
+  localStorage.removeItem(STORAGE_KEY);
+  document.querySelectorAll('[data-id]').forEach(el=>{ el.style.transform=''; });
+}
+
+/* Pointer-based dragging that preserves existing rotation in CSS */
+function makeDraggable(el, layerId){
+  el.style.touchAction = 'none';
+  el.style.cursor = 'move';
+
+  let dragging=false, startX=0, startY=0, startDX=0, startDY=0, base='';
+
+  const readOffsets = ()=>{
+    // Parse current transform to find existing translate
+    const tfm = getComputedStyle(el).transform;
+    base = (tfm && tfm !== 'none') ? tfm : '';
+    // If a previous translate was applied via style, keep base without last translate
+    const styleTfm = el.style.transform;
+    if(styleTfm && styleTfm.includes('translate(')){
+      base = styleTfm.replace(/\s?translate\([^)]*\)/g,'').trim();
+    }
+    const m = (el.style.transform.match(/translate\(([-\d.]+)px,\s*([-\d.]+)px\)/) || []);
+    startDX = parseFloat(m[1] || 0);
+    startDY = parseFloat(m[2] || 0);
+  };
+
+  el.addEventListener('pointerdown', (e)=>{
+    dragging=true; el.setPointerCapture(e.pointerId);
+    startX=e.clientX; startY=e.clientY; readOffsets();
+    el.style.zIndex=999;
+    e.preventDefault();
+  });
+  el.addEventListener('pointermove', (e)=>{
+    if(!dragging) return;
+    const dx = startDX + (e.clientX - startX);
+    const dy = startDY + (e.clientY - startY);
+    const prefix = base && base!=='none' ? base + ' ' : '';
+    el.style.transform = `${prefix}translate(${dx}px, ${dy}px)`;
+  });
+  const end = (e)=>{
+    if(!dragging) return;
+    dragging=false; el.style.zIndex='';
+    saveTransform(layerId, el);
+    try{ el.releasePointerCapture(e.pointerId); }catch(_){}
+  };
+  el.addEventListener('pointerup', end);
+  el.addEventListener('pointercancel', end);
+  el.addEventListener('lostpointercapture', end);
+}
+
+function initDragForActiveLayer(){
+  const layerEl = document.querySelector('.layer.active');
+  if(!layerEl) return;
+  const layerId = layerEl.id.replace('layer-','');
+  // bind
+  layerEl.querySelectorAll('[data-id]').forEach(el=>makeDraggable(el, layerId));
+  // load saved transforms
+  loadTransformsFor(layerId);
+}
+
+/* Reset button */
+document.getElementById('resetBtn').addEventListener('click', ()=>{
+  resetAll();
+});
+
+/* boot */
+initDragForActiveLayer();
 </script>
 </body>
 </html>
